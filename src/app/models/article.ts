@@ -5,7 +5,7 @@ export class Article
 {
     id: string;
     author: User;
-    currentCollaborators: Array<User>;
+    currentCollaborators: User[];
     name: string;
     content: string;
     status: Status;
