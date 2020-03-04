@@ -5,6 +5,6 @@ export class User
 {
     id: string;
     name: string;
-    articles: Array<Article>;
+    articles: Article[];
     role: Role;
 }
