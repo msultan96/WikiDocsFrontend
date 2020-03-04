@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "FirstAngApp": {
+    "verizon-frontend": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/FirstAngApp",
+            "outputPath": "dist/verizon-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -23,8 +23,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "src/styles.css"
             ],
             "scripts": []
           },
@@ -58,18 +57,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "FirstAngApp:build"
+            "browserTarget": "verizon-frontend:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "FirstAngApp:build:production"
+              "browserTarget": "verizon-frontend:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "FirstAngApp:build"
+            "browserTarget": "verizon-frontend:build"
           }
         },
         "test": {
@@ -103,7 +102,7 @@
         }
       }
     },
-    "FirstAngApp-e2e": {
+    "verizon-frontend-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -112,11 +111,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "FirstAngApp:serve"
+            "devServerTarget": "verizon-frontend:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "FirstAngApp:serve:production"
+              "devServerTarget": "verizon-frontend:serve:production"
             }
           }
         },
@@ -132,5 +131,5 @@
       }
     }
   },
-  "defaultProject": "FirstAngApp"
+  "defaultProject": "verizon-frontend"
 }
