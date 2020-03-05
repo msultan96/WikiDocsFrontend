@@ -4,18 +4,24 @@ import { UserModule } from './user/user.module';
 import { ArticleModule } from './article/article.module';
 
 
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { EditorComponent } from './editor/editor.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    EditorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     UserModule,
-    ArticleModule
+    ArticleModule,
+    CKEditorModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
