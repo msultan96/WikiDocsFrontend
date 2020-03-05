@@ -1,4 +1,4 @@
-<div *ngIf="!configurationSet">
+<!-- <div *ngIf="!configurationSet">
 	<div id="overlay" [class.warning]="isWarning">
 		<form class="body" #form="ngForm" (ngSubmit)="handleSubmit()">
 			<h2>Connect CKEditor Cloud Services</h2>
@@ -44,6 +44,6 @@
 			<button id="start" [disabled]="!form.valid">Start</button>
 		</form>
 	</div>
-</div>
+</div> -->
 
 <app-editor *ngIf="configurationSet" [configuration]="config" [channelId]="channelId" (ready)="onEditorReady($event)"></app-editor>
