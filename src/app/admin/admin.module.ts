@@ -3,14 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { UserRoutingModule } from './user-routing.module';
+import { AdminRoutingModule } from './admin-routing.module';
 import { BetaArticlesComponent } from './beta-articles/beta-articles.component';
 import { ApprovedArticlesComponent } from './approved-articles/approved-articles.component';
-import { CreateArticleComponent } from './create-article/create-article.component';
+
 
 @NgModule({
     declarations: [
-        CreateArticleComponent,
         ApprovedArticlesComponent,
         BetaArticlesComponent
         
@@ -20,7 +19,7 @@ import { CreateArticleComponent } from './create-article/create-article.componen
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
-        UserRoutingModule
+        AdminRoutingModule
     ],
     providers: [
        
@@ -28,6 +27,7 @@ import { CreateArticleComponent } from './create-article/create-article.componen
     exports: []
 
 })
-export class UserModule {
+export class AdminModule {
 
 }
+
