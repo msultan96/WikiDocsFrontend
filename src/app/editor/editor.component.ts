@@ -12,7 +12,6 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 	@Input() public configuration!: CloudServicesConfig;
 	@Input() public channelId!: string;
 	@Output() public ready = new EventEmitter<CKEditor5.Editor>();
-	@ViewChild( 'sidebar', { static: true } as any ) private sidebarContainer?: ElementRef<HTMLDivElement>;
 	@ViewChild( 'presenceList', { static: true } as any ) private presenceListContainer?: ElementRef<HTMLDivElement>;
 
 	public Editor = ClassicEditorBuild;
@@ -28,9 +27,6 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 			collaboration: {
 				channelId: this.channelId
 			},
-			sidebar: {
-				container: this.sidebar,
-			},
 			presenceList: {
 				container: this.presenceList,
 			}
@@ -39,23 +35,18 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 
 	// Note that Angular refs can be used once the view is initialized so we need to create
 	// these containers and use in the above editor configuration to workaround this problem.
-	private sidebar = document.createElement( 'div' );
-	private presenceList = document.createElement( 'div' );
 
-	private boundRefreshDisplayMode = this.refreshDisplayMode.bind( this );
+	private presenceList = document.createElement( 'div' );
 	private boundCheckPendingActions = this.checkPendingActions.bind( this );
 
 	public ngAfterViewInit() {
-		if ( !this.sidebarContainer || !this.presenceListContainer ) {
-			throw new Error( 'Div containers for sidebar or presence list were not found' );
+		if (!this.presenceListContainer ) {
+			throw new Error( 'Div containers for presence list were not found' );
 		}
-
-		this.sidebarContainer.nativeElement.appendChild( this.sidebar );
 		this.presenceListContainer.nativeElement.appendChild( this.presenceList );
 	}
 
 	public ngOnDestroy() {
-		window.removeEventListener( 'resize', this.boundRefreshDisplayMode );
 		window.removeEventListener( 'beforeunload', this.boundCheckPendingActions );
 	}
 
@@ -66,9 +57,6 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 		// Prevent closing the tab when any action is pending.
 		window.addEventListener( 'beforeunload', this.boundCheckPendingActions );
 
-		// Switch between inline and sidebar annotations according to the window size.
-		window.addEventListener( 'resize', this.boundRefreshDisplayMode );
-		this.refreshDisplayMode();
 	}
 
 	private checkPendingActions( domEvt ) {
@@ -78,29 +66,13 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 		}
 	}
 
-	private refreshDisplayMode() {
-		const annotations = this.editor.plugins.get( 'Annotations' );
-		const sidebarElement = this.sidebarContainer.nativeElement;
-
-		if ( window.innerWidth < 1070 ) {
-			sidebarElement.classList.remove( 'narrow' );
-			sidebarElement.classList.add( 'hidden' );
-			annotations.switchTo( 'inline' );
-		}
-		else if ( window.innerWidth < 1300 ) {
-			sidebarElement.classList.remove( 'hidden' );
-			sidebarElement.classList.add( 'narrow' );
-			annotations.switchTo( 'narrowSidebar' );
-		}
-		else {
-			sidebarElement.classList.remove( 'hidden', 'narrow' );
-			annotations.switchTo( 'wideSidebar' );
-		}
-	}
-
 	private getInitialData() {
+<<<<<<< HEAD
 		return `
 	
 `;
+=======
+		return ``;
+>>>>>>> EditingHTMLPage
 	}
 }
