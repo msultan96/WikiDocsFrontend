@@ -67,12 +67,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 	}
 
 	private getInitialData() {
-<<<<<<< HEAD
-		return `
-	
-`;
-=======
 		return ``;
->>>>>>> EditingHTMLPage
+		
 	}
 }
