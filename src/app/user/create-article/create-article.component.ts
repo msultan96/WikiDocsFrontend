@@ -11,8 +11,6 @@ const LOCAL_STORAGE_KEY = 'CKEDITOR_CS_CONFIG';
 } )
 export class CreateArticleComponent {
 	@ViewChild( 'form') public form?: NgForm;
-
-  public configuration!: CloudServicesConfig;
 	public configurationSet = true;
 	public users = getUsers();
 	public channelId = handleDocIdInUrl();
