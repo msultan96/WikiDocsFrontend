@@ -1,0 +1,3 @@
+<p>Create New Articles Here!</p>
+
+<app-editor *ngIf="configurationSet" [configuration]="config" [channelId]="channelId" (ready)="onEditorReady($event)"></app-editor>
