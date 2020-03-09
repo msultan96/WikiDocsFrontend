@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { CloudServicesConfig } from './editor/common-interfaces';
 
+
 const LOCAL_STORAGE_KEY = 'CKEDITOR_CS_CONFIG';
 
 @Component( {

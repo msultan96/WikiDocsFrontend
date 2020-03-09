@@ -8,7 +8,6 @@ import { AdminModule } from './admin/admin.module';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EditorComponent } from './editor/editor.component';
 import { FormsModule } from '@angular/forms';
 import { AdminComponent } from './admin/admin.component';
 import { BetaArticlesComponent } from './admin/beta-articles/beta-articles.component';
@@ -18,13 +17,13 @@ import { LoginRoutingModule } from './login/login-routing.module';
 import { AdminRoutingModule } from './admin/admin-routing.module';
 import { UserComponent } from './user/user.component';
 import { UserRoutingModule } from './user/user-routing.module';
+import { EditorModule } from './editor/editor.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
     UserComponent,
-    EditorComponent,
     LoginComponent
   ],
   imports: [
@@ -34,12 +33,14 @@ import { UserRoutingModule } from './user/user-routing.module';
     ArticleModule,
     AdminModule,
     CKEditorModule,
+    EditorModule,
     FormsModule,
     LoginRoutingModule,
     UserRoutingModule,
     AdminRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: []
 })
 export class AppModule { }
