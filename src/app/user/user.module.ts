@@ -7,6 +7,8 @@ import { UserRoutingModule } from './user-routing.module';
 import { BetaArticlesComponent } from './beta-articles/beta-articles.component';
 import { ApprovedArticlesComponent } from './approved-articles/approved-articles.component';
 import { CreateArticleComponent } from './create-article/create-article.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { EditorModule } from '../editor/editor.module';
 
 @NgModule({
     declarations: [
@@ -18,6 +20,8 @@ import { CreateArticleComponent } from './create-article/create-article.componen
     imports: [
         BrowserModule,
         FormsModule,
+        CKEditorModule,
+        EditorModule,
         ReactiveFormsModule,
         HttpClientModule,
         UserRoutingModule
