@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { CloudServicesConfig } from 'src/app/editor/common-interfaces';
+import { UserService } from 'src/app/service/user.service';
+import { User } from 'src/app/shared/models/user';
 
 
 const LOCAL_STORAGE_KEY = 'CKEDITOR_CS_CONFIG';
@@ -13,12 +15,13 @@ const LOCAL_STORAGE_KEY = 'CKEDITOR_CS_CONFIG';
 export class CreateArticleComponent {
 	@ViewChild( 'form') public form?: NgForm;
 	public configurationSet = true;
-	public users = getUsers();
-	public channelId = handleDocIdInUrl();
+	public channelId = this.handleDocIdInUrl();
 	public config = getStoredConfig();
 	public isWarning = false;
 
-	public selectedUser?: string;
+	public name:string = sessionStorage.getItem("user")["name"];
+
+	constructor(private userService:UserService){}
 
 	ngOnInit(){
 		this.handleSubmit();
@@ -32,7 +35,6 @@ export class CreateArticleComponent {
 
 		if ( this.isCloudServicesTokenEndpoint() && !this.config.tokenUrl.includes( '?' ) ) {
 			this.isWarning = true;
-
 			return;
 		}
 
@@ -49,92 +51,34 @@ export class CreateArticleComponent {
 
 	public handleTokenUrlChange() {
 		this.isWarning = false;
-		this.selectedUser = undefined;
-	}
-
-	public selectUser( user: User ) {
-		this.selectedUser = user.id;
-		this.isWarning = false;
-
-		const keys = Object.keys( user ) as ( keyof User )[];
-
-		this.config.tokenUrl = `${ getRawTokenUrl( this.config.tokenUrl ) }?` + keys
-			.filter( key => user[ key ] )
-			.map( key => {
-				if ( key === 'role' ) {
-					return `${ key }=${ user[ key ] }`;
-				}
-
-				return `user.${ key }=${ user[ key ] }`;
-			} )
-			.join( '&' );
 	}
 
 	public isCloudServicesTokenEndpoint() {
 		return isCloudServicesTokenEndpoint( this.config.tokenUrl );
 	}
 
-	public getUserInitials( name: string ) {
-		return name.split( ' ', 2 ).map( part => part.charAt( 0 ) ).join( '' ).toUpperCase();
-	}
-
 	public onEditorReady( editor ) {
 		console.log( 'Editor is ready to use!', editor );
 	}
-}
 
-function getUsers(): User[] {
-	return [
-		{
-			id: 'e1',
-			name: 'Tom Rowling',
-			avatar: 'https://randomuser.me/api/portraits/men/30.jpg',
-			role: 'writer'
-		},
-		{
-			id: 'e2',
-			name: 'Wei Hong',
-			avatar: 'https://randomuser.me/api/portraits/women/51.jpg',
-			role: 'writer'
-		},
-		{
-			id: 'e3',
-			name: 'Rani Patel',
-			role: 'writer'
-		},
-		{
-			id: 'e4',
-			name: 'Henrik Jensen',
-			role: 'commentator'
-		},
-		{
-			id: randomString(),
-			role: 'writer'
-		},
-		{
-			id: randomString(),
-			role: 'reader'
+	public handleDocIdInUrl() {
+		let id = getDocIdFromUrl();
+	
+		if ( !id ) {
+			id = randomString();
+			updateDocIdInUrl( id );
 		}
-	];
-}
+		let articleCreator:string = JSON.parse(sessionStorage.getItem("user"))["email"];
+		this.userService.createNewArticle(articleCreator, id).subscribe(
+			response => {
+			  console.log(response);
+			});
 
-interface User {
-	id: string;
-	name?: string;
-	avatar?: string;
-	role?: string;
-}
-
-function handleDocIdInUrl() {
-	let id = getDocIdFromUrl();
-
-	if ( !id ) {
-		id = randomString();
-		updateDocIdInUrl( id );
+		return id;
 	}
-
-	return id;
 }
+
+
 
 function getDocIdFromUrl() {
 	const channelIdMatch = location.search.match( /channelId=(.+)$/ );

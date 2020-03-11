@@ -1,17 +1,19 @@
-<main>
-	<div class="message">
-		<div class="centered">
-			<h1>New Article</h1>
-
-		</div>
-	</div>
+<div class = "text-dark p-5">
 	<div class="centered">
-		<div class="row row-presence">
-			<div #presenceList class='presence'></div>
+		<div class="row row-presence d-none">
+			<div #presenceList class="d-none"></div>
 		</div>
-		<div id="toolbar-container"></div>
 		<div class='row row-editor'>
 			<ckeditor [editor]="Editor" (ready)="onReady($event)" [config]="editorConfig" [data]="data"></ckeditor>
 		</div>
+		<div class="row d-flex justify-content-between m-3">
+			<button type="button" class="btn btn-lg btn-primary">
+				Save
+			</button>
+			<button type="button" class="btn btn-lg btn-success">
+				Submit
+			</button>
+		</div>
 	</div>
-</main>
+	</div>
+	

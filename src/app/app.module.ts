@@ -8,7 +8,7 @@ import { AdminModule } from './admin/admin.module';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule , ReactiveFormsModule} from '@angular/forms';
 import { AdminComponent } from './admin/admin.component';
 import { BetaArticlesComponent } from './admin/beta-articles/beta-articles.component';
 import { ApprovedArticlesComponent } from './admin/approved-articles/approved-articles.component';
@@ -18,14 +18,19 @@ import { AdminRoutingModule } from './admin/admin-routing.module';
 import { UserComponent } from './user/user.component';
 import { UserRoutingModule } from './user/user-routing.module';
 import { EditorModule } from './editor/editor.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AppGuard } from './app.guard';
+import { ErrorLandingComponent } from './shared/error-landing/error-landing.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
     UserComponent,
-    LoginComponent
-  ],
+    LoginComponent,
+    ErrorLandingComponent,
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -35,11 +40,14 @@ import { EditorModule } from './editor/editor.module';
     CKEditorModule,
     EditorModule,
     FormsModule,
+    ReactiveFormsModule,
     LoginRoutingModule,
     UserRoutingModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    FontAwesomeModule,
+    InfiniteScrollModule
   ],
-  providers: [],
+  providers: [AppGuard],
   bootstrap: [AppComponent],
   exports: []
 })

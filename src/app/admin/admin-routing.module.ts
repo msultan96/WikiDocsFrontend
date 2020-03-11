@@ -4,16 +4,19 @@ import { ApprovedArticlesComponent } from  './approved-articles/approved-article
 import { BetaArticlesComponent } from './beta-articles/beta-articles.component';
 import { AdminComponent } from './admin.component';
 import { LoginComponent } from '../login/login.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AllArticlesComponent } from './all-articles/all-articles.component';
 
 
 const routes: Routes = [
-  { path: 'admin', component: AdminComponent,
+  { path: 'Admin', component: AdminComponent,
     children: [
       {
         path: '',
         children: [
-          { path: 'articles/approved', component: ApprovedArticlesComponent },
-          { path: 'articles/beta', component: BetaArticlesComponent }
+          { path: 'Articles/All', component: AllArticlesComponent },
+          { path: 'Articles/Approved', component: ApprovedArticlesComponent },
+          { path: 'Articles/Beta', component: BetaArticlesComponent }
         ]
       }
     ]
@@ -23,7 +26,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
+  imports: [RouterModule.forChild(routes),
+  FormsModule, ReactiveFormsModule],
   exports: [RouterModule]
 })
 export class AdminRoutingModule { }

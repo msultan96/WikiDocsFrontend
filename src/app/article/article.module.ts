@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ArticleRoutingModule } from './article-routing.module';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
     declarations: [
@@ -14,7 +15,8 @@ import { ArticleRoutingModule } from './article-routing.module';
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
-        ArticleRoutingModule
+        ArticleRoutingModule,
+        CKEditorModule
     ],
     providers: [
        

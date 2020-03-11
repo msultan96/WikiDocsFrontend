@@ -6,23 +6,25 @@ import { HttpClientModule } from '@angular/common/http';
 import { AdminRoutingModule } from './admin-routing.module';
 import { BetaArticlesComponent } from './beta-articles/beta-articles.component';
 import { ApprovedArticlesComponent } from './approved-articles/approved-articles.component';
+import { AllArticlesComponent } from './all-articles/all-articles.component';
+import { SharedPipesModule } from '../shared/pipes/shared-pipes/shared-pipes.module';
 
 
 @NgModule({
     declarations: [
         ApprovedArticlesComponent,
-        BetaArticlesComponent
-        
+        BetaArticlesComponent,
+        AllArticlesComponent,
 ],
     imports: [
         BrowserModule,
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
-        AdminRoutingModule
+        AdminRoutingModule,
+        SharedPipesModule
     ],
     providers: [
-       
     ],
     exports: []
 

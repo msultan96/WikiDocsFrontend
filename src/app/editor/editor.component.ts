@@ -2,6 +2,8 @@ import { AfterViewInit, OnDestroy, Component, ElementRef, EventEmitter, Input, O
 import { CKEditor5 } from '@ckeditor/ckeditor5-angular';
 import * as ClassicEditorBuild from '../../../vendor/ckeditor5/build/classic-editor-with-real-time-collaboration.js';
 import { CloudServicesConfig } from './common-interfaces';
+import { ArticleService } from '../service/article.service.js';
+import { Article } from '../shared/models/article.js';
 
 @Component( {
 	selector: 'app-editor',
@@ -12,11 +14,12 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 	@Input() public configuration!: CloudServicesConfig;
 	@Input() public channelId!: string;
 	@Output() public ready = new EventEmitter<CKEditor5.Editor>();
-	//@ViewChild( 'sidebar', { static: true } ) private sidebarContainer?: ElementRef<HTMLDivElement>;
 	@ViewChild( 'presenceList', { static: true } ) private presenceListContainer?: ElementRef<HTMLDivElement>;
 
+	constructor(private articleService:ArticleService){}
+
 	public Editor = ClassicEditorBuild;
-	public editor?: CKEditor5.Editor;
+	public editor?: ClassicEditorBuild;
 
 	public data = this.getInitialData();
 
@@ -50,7 +53,7 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 			throw new Error( 'Div containers for presence list was not found' );
 		}
 
-		//this.sidebarContainer.nativeElement.appendChild( this.sidebar );
+		// //this.sidebarContainer.nativeElement.appendChild( this.sidebar );
 		this.presenceListContainer.nativeElement.appendChild( this.presenceList );
 	}
 
@@ -59,9 +62,13 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 		window.removeEventListener( 'beforeunload', this.boundCheckPendingActions );
 	}
 
-	public onReady( editor: CKEditor5.Editor ) {
-		this.editor = editor;
-		this.ready.emit( editor );
+	public onReady( editor: ClassicEditorBuild ) {
+		editor.ui.getEditableElement().parentElement.insertBefore(
+            editor.ui.view.toolbar.element
+            // editor.ui.getEditableElement()
+        );
+		// this.editor = editor;
+		// this.ready.emit( editor );
 
 		// Prevent closing the tab when any action is pending.
 		window.addEventListener( 'beforeunload', this.boundCheckPendingActions );
@@ -98,7 +105,13 @@ export class EditorComponent implements AfterViewInit, OnDestroy {
 		}
 	}
 	private getInitialData() {
-		return ``;
+		console.log(this.channelId);
+		// this.articleService.getArticleByChannelId(this.channelId).subscribe(
+		// 	response =>{
+		// 		let article:Article = response;
+		// 		return article.content;
+		// 	}
+		// )
 		
 	}
 }
