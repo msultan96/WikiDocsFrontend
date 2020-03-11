@@ -5,16 +5,27 @@ import { ApprovedArticlesComponent } from './approved-articles/approved-articles
 import { BetaArticlesComponent } from './beta-articles/beta-articles.component';
 import { UserComponent } from './user.component';
 import { CreateArticleComponent } from './create-article/create-article.component';
+import { AllArticlesComponent } from './all-articles/all-articles.component';
+import { AllApprovedArticlesComponent } from './all-approved-articles/all-approved-articles.component';
+import { InitialArticlesComponent } from './initial-articles/initial-articles.component';
+import { RejectedArticlesComponent } from './rejected-articles/rejected-articles.component';
+import { DiscardedArticlesComponent } from './discarded-articles/discarded-articles.component';
+
 
 const routes: Routes = [
-  { path: 'user', component: UserComponent,
+  { path: 'User', component: UserComponent,
   children: [
     {
       path: '',
       children: [
-        { path: 'articles/create', component: CreateArticleComponent },
-        { path: 'articles/approved', component: ApprovedArticlesComponent },
-        { path: 'articles/beta', component: BetaArticlesComponent }
+        { path: 'Articles/All/Approved', component:  AllApprovedArticlesComponent},
+        { path: 'Articles/Your/All', component: AllArticlesComponent },
+        { path: 'Articles/Your/Approved', component: ApprovedArticlesComponent },
+        { path: 'Articles/Your/Beta', component: BetaArticlesComponent },
+        { path: 'Articles/Your/Initial', component: InitialArticlesComponent },
+        { path: 'Articles/Your/Rejected', component: RejectedArticlesComponent },
+        { path: 'Articles/Your/Discarded', component: DiscardedArticlesComponent },
+        { path: 'Articles/Your/New', component: CreateArticleComponent }
       ]
     }
   ]

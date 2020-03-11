@@ -1,7 +1,31 @@
-<div class="content">
-<button class="button" style="vertical-align:middle" routerLink="/admin" routerLinkActive="active">
-    <span>Admin </span></button>
-<button class="button" style="vertical-align:middle" routerLink="/user" routerLinkActive="active">
-    <span>User </span></button>
+<div class="container h-100 d-flex justify-content-center align-items-center">
+    <div class="jumbotron my-auto align-self-center">
+        <h1 class="display-4 text-dark">DLM Wiki</h1>
+        <form [formGroup]="loginForm" (ngSubmit)="login()" style="color:#001011">
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" formControlName="email" id="email" placeholder="daniel@gmail.com">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" formControlName="password" id="password">
+            </div>
+            <div *ngIf="!loginInProgress" class="row">
+                <button class="btn btn-block btn-success">
+                    Login
+                </button>  
+            </div>
+        </form>
+        <div *ngIf="loginInProgress" class="d-flex justify-content-center">
+            <div class="spinner-border text-dark text-center" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <div *ngIf="errorMessage!=null && errorMessage!=''">
+            <div class = "container bg-danger text-white rounded text-center p-3 mt-2">
+                {{errorMessage}}
+            </div>        
+        </div>
+    </div>
 </div>
 

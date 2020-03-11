@@ -1,15 +1,14 @@
-import { User } from "./user";
 import { Status } from "./status";
 
 export class Article
 {
     id: string;
-    author: User;
-    currentCollaborators: User[];
+    channelId: string;
+    emailId: string;
     name: string;
     content: string;
     status: Status;
-    edits: Status[];
+    rejectedCount: number;
     editable: boolean;
 }
 
