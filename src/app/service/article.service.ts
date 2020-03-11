@@ -84,6 +84,14 @@ export class ArticleService {
         .pipe(catchError(this.handleError));
   }
 
+  createNewArticle(email:string, channelId:string): Observable<Article> {
+    let url: string = environment.articleAPIUrl + "/createNewArticle"
+    const object = {"email":email,"channelId":channelId};
+    console.log(object)
+    return this.http.post<Article>(url,object,{headers:this.headers})
+        .pipe(catchError(this.handleError));
+  }
+
 
 private handleError(err: HttpErrorResponse) {
     console.log(err)
