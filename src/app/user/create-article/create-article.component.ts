@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { CloudServicesConfig } from 'src/app/editor/common-interfaces';
 import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/app/shared/models/user';
+import { ArticleService } from 'src/app/service/article.service';
 
 
 const LOCAL_STORAGE_KEY = 'CKEDITOR_CS_CONFIG';
@@ -21,7 +22,7 @@ export class CreateArticleComponent {
 
 	public name:string = sessionStorage.getItem("user")["name"];
 
-	constructor(private userService:UserService){}
+	constructor(private articleService:ArticleService){}
 
 	ngOnInit(){
 		this.handleSubmit();
@@ -69,7 +70,7 @@ export class CreateArticleComponent {
 			updateDocIdInUrl( id );
 		}
 		let articleCreator:string = JSON.parse(sessionStorage.getItem("user"))["email"];
-		this.userService.createNewArticle(articleCreator, id).subscribe(
+		this.articleService.createNewArticle(articleCreator, id).subscribe(
 			response => {
 			  console.log(response);
 			});
