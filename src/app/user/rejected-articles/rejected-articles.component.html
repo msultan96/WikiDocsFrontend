@@ -7,7 +7,7 @@
 <div *ngIf="populated" class="card-group">
 	<div *ngFor="let article of articles">
 		<div class="card text-dark d-block m-3">
-			<div class="card-body">
+			<div (click)="viewArticle(article)" class="card-body">
 				<h5 class="card-title">{{article.name}}</h5>
 				<p class="card-text">
 					{{article.content}}
@@ -15,7 +15,7 @@
 			</div>
 			<div class="card-footer">
 				<div class="row d-flex justify-content-between m-3">
-					<button type="button" class="btn btn-lg btn-warning">
+					<button (click)="viewArticle(article)" type="button" class="btn btn-lg btn-warning">
 						Edit
 					</button>
 					<button (click)="submitArticle(article)" type="button" class="btn btn-lg btn-success">

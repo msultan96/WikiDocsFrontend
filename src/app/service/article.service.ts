@@ -97,6 +97,12 @@ export class ArticleService {
       .pipe(catchError(this.handleError));
   }
 
+  getEtherPadUrl(articleId:string): Observable<string>{
+    let url: string = environment.articleAPIUrl + "/getEtherPadUrl";
+    return this.http.post<string>(url, articleId, {responseType:'text' as 'json' })
+      .pipe(catchError(this.handleError));
+  }
+
 
 private handleError(err: HttpErrorResponse) {
     let errMsg: string = '';
