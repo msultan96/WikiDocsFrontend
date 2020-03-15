@@ -24,7 +24,6 @@ export class ApprovedArticlesComponent implements OnInit {
     this.populated=false;
     this.articleService.getAllApprovedArticles(this.loggedInUser.email).subscribe(
       response => {
-          console.log(response);
           this.populated=true;
           this.articles=response;
       });

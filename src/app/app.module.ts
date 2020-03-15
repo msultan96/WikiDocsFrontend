@@ -23,6 +23,7 @@ import { AppGuard } from './app.guard';
 import { ErrorLandingComponent } from './shared/error-landing/error-landing.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +46,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     UserRoutingModule,
     AdminRoutingModule,
     FontAwesomeModule,
-    InfiniteScrollModule
   ],
   providers: [AppGuard],
   bootstrap: [AppComponent],

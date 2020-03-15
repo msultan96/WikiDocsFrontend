@@ -23,7 +23,6 @@ export class BetaArticlesComponent implements OnInit {
     this.populated=false;
     this.articleService.getAllBetaArticles(this.loggedInUser.email).subscribe(
       response => {
-          console.log(response);
           this.articles = response;
           this.populated=true;
       });

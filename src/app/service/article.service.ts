@@ -9,7 +9,7 @@ import { Article } from '../shared/models/article';
   providedIn: 'root'
 })
 export class ArticleService {
-  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({'Content-Type': 'application/json' });
   constructor(private http:HttpClient) { }
 
   getAllArticles(email: string): Observable<Article[]> {
@@ -78,27 +78,30 @@ export class ArticleService {
         .pipe(catchError(this.handleError));
   }
 
-  getArticleByChannelId(channelId: string): Observable<Article> {
-    let url: string = environment.articleAPIUrl + "/getArticleByChannelId";
-    return this.http.post<Article>(url, channelId, {headers:this.headers})
+  getArticleById(articleId: string): Observable<Article> {
+    let url: string = environment.articleAPIUrl + "/getArticleById";
+    return this.http.post<Article>(url, articleId, {headers:this.headers})
         .pipe(catchError(this.handleError));
   }
 
-  createNewArticle(email:string, channelId:string): Observable<Article> {
+  createNewArticle(email:string): Observable<Article> {
     let url: string = environment.articleAPIUrl + "/createNewArticle"
-    const object = {"email":email,"channelId":channelId};
-    console.log(object)
+    const object = {"email":email};
     return this.http.post<Article>(url,object,{headers:this.headers})
         .pipe(catchError(this.handleError));
   }
 
+  saveArticle(etherPadId:String): Observable<Article>{
+      let url: string = environment.articleAPIUrl + "/saveArticle";
+      return this.http.post<Article>(url, etherPadId, {headers:this.headers})
+      .pipe(catchError(this.handleError));
+  }
+
 
 private handleError(err: HttpErrorResponse) {
-    console.log(err)
     let errMsg: string = '';
     if (err.error instanceof Error) {
         errMsg = err.error.message;
-        console.log(errMsg)
     }
     else if (typeof err.error === 'string') {
         errMsg = JSON.parse(err.error).message

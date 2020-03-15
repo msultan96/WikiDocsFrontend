@@ -16,6 +16,7 @@ import { AllArticlesComponent } from './all-articles/all-articles.component';
 import { AllApprovedArticlesComponent } from './all-approved-articles/all-approved-articles.component';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes/shared-pipes.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { ArticleViewerComponent } from './article-viewer/article-viewer.component';
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
         DiscardedArticlesComponent,
         AllArticlesComponent,
         AllApprovedArticlesComponent,
+        ArticleViewerComponent,
         
 ],
     imports: [
