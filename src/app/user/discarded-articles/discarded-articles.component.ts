@@ -23,7 +23,6 @@ export class DiscardedArticlesComponent implements OnInit {
     this.populated=false;
     this.articleService.getAllDiscardedArticles(this.loggedInUser.email).subscribe(
       response => {
-          console.log(response);
           this.populated=true;
           this.articles = response;
       });

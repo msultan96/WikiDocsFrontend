@@ -23,13 +23,13 @@ export class InitialArticlesComponent implements OnInit {
     this.populated=false;
     this.articleService.getAllInitialArticles(this.loggedInUser.email).subscribe(
       response => {
-          console.log(response);
           this.populated=true;
           this.articles = response;
       });
   }
 
   submitArticle(article:Article){
+    console.log("Article submitted");
     this.articleService.submitArticleForApproval(article).subscribe(
       response => {
           console.log(response);

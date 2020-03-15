@@ -10,7 +10,7 @@ import { User } from '../shared/models/user';
   providedIn: 'root'
 })
 export class UserService {
-  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  private headers = new HttpHeaders({'Content-Type': 'application/json' });
   constructor(private http:HttpClient) { }
 
   login(user:User): Observable<User> {

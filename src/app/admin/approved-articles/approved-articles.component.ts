@@ -27,7 +27,6 @@ export class ApprovedArticlesComponent implements OnInit {
       response => {
         this.populated=true;  
         this.articles = response;
-        console.log(response);
       });
   }
 

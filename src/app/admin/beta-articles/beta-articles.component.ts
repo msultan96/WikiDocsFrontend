@@ -27,14 +27,12 @@ export class BetaArticlesComponent implements OnInit {
       response => {
         this.populated=true;  
         this.articles = response;
-        console.log(response);
       });
   }
 
   approveArticle(article:Article){
     this.articleService.approveArticle(article).subscribe(
       response => {
-        console.log(response);
         this.populateArticles();
       }
     )
@@ -43,7 +41,6 @@ export class BetaArticlesComponent implements OnInit {
   rejectArticle(article:Article){
     this.articleService.rejectArticle(article).subscribe(
       response => {
-        console.log(response);
         this.populateArticles();
       }
     )

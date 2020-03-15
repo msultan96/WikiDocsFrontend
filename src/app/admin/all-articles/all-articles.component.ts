@@ -27,14 +27,12 @@ export class AllArticlesComponent implements OnInit {
     this.betaPopulated=false;
     this.articleService.getAllApprovedArticlesAdmin().subscribe(
       response => {
-        console.log(response);
         this.approvedPopulated=true;  
         let tempArticles:Article[] = response
         this.articles = this.articles.concat(tempArticles);
       });
     this.articleService.getAllBetaArticlesAdmin().subscribe(
       response => {
-        console.log(response)
         this.betaPopulated=true;  
         let tempArticles:Article[] = response
         this.articles = this.articles.concat(tempArticles);

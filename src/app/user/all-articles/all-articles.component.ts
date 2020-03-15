@@ -26,7 +26,6 @@ export class AllArticlesComponent implements OnInit {
     this.populated=false;
     this.articleService.getAllArticles(this.loggedInUser.email).subscribe(
       response => {
-          console.log(response);
           this.articles = response;
           this.populated=true;
       });
