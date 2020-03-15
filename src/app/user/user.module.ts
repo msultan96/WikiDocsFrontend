@@ -8,7 +8,6 @@ import { BetaArticlesComponent } from './beta-articles/beta-articles.component';
 import { ApprovedArticlesComponent } from './approved-articles/approved-articles.component';
 import { CreateArticleComponent } from './create-article/create-article.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { EditorModule } from '../editor/editor.module';
 import { RejectedArticlesComponent } from './rejected-articles/rejected-articles.component';
 import { InitialArticlesComponent } from './initial-articles/initial-articles.component';
 import { DiscardedArticlesComponent } from './discarded-articles/discarded-articles.component';
@@ -17,6 +16,8 @@ import { AllApprovedArticlesComponent } from './all-approved-articles/all-approv
 import { SharedPipesModule } from '../shared/pipes/shared-pipes/shared-pipes.module';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ArticleViewerComponent } from './article-viewer/article-viewer.component';
+import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from '../app-routing.module';
 
 @NgModule({
     declarations: [
@@ -32,14 +33,16 @@ import { ArticleViewerComponent } from './article-viewer/article-viewer.componen
         
 ],
     imports: [
+        AppRoutingModule,
+        RouterModule,
         BrowserModule,
         FormsModule,
         CKEditorModule,
-        EditorModule,
         ReactiveFormsModule,
         HttpClientModule,
         SharedPipesModule,
-        InfiniteScrollModule
+        InfiniteScrollModule,
+        
     ],
     providers: [
     ],

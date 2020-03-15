@@ -10,6 +10,8 @@ import { AllApprovedArticlesComponent } from './all-approved-articles/all-approv
 import { InitialArticlesComponent } from './initial-articles/initial-articles.component';
 import { RejectedArticlesComponent } from './rejected-articles/rejected-articles.component';
 import { DiscardedArticlesComponent } from './discarded-articles/discarded-articles.component';
+import { ArticleViewerComponent } from './article-viewer/article-viewer.component';
+
 
 
 const routes: Routes = [
@@ -25,7 +27,8 @@ const routes: Routes = [
         { path: 'Articles/Your/Initial', component: InitialArticlesComponent },
         { path: 'Articles/Your/Rejected', component: RejectedArticlesComponent },
         { path: 'Articles/Your/Discarded', component: DiscardedArticlesComponent },
-        { path: 'Articles/Your/New', component: CreateArticleComponent }
+        { path: 'Articles/Your/New', component: CreateArticleComponent },
+        { path: 'Articles/Your/Viewing', component: ArticleViewerComponent}
       ]
     }
   ]

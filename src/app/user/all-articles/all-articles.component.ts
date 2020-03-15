@@ -18,6 +18,7 @@ export class AllArticlesComponent implements OnInit {
   constructor(private articleService:ArticleService) { }
   
   ngOnInit(): void {
+    console.log("What")
     this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
     this.populateArticles();
   }
