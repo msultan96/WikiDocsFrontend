@@ -1,4 +1,4 @@
-<div class="container h-100 d-flex justify-content-center align-items-center">
+<div class="container h-100 d-flex justify-content-center align-items-center mt-5">
     <div class="jumbotron my-auto align-self-center">
         <h1 class="display-4 text-dark">DLM Wiki</h1>
         <form [formGroup]="loginForm" (ngSubmit)="login()" style="color:#001011">
@@ -13,13 +13,21 @@
             <div *ngIf="!loginInProgress" class="row">
                 <button class="btn btn-block btn-success">
                     Login
-                </button>  
+                </button>
+                <button (click)="navigateRegistration()" class="btn btn-block btn-secondary">
+                    Register
+                </button>
             </div>
         </form>
         <div *ngIf="loginInProgress" class="d-flex justify-content-center">
             <div class="spinner-border text-dark text-center" role="status">
-                <span class="sr-only">Loading...</span>
+                <span class="sr-only"></span>
             </div>
+        </div>
+        <div *ngIf="successMessage!=null && successMessage!=''">
+            <div class = "container bg-success text-white rounded text-center p-3 mt-2">
+                {{successMessage}}
+            </div>  
         </div>
         <div *ngIf="errorMessage!=null && errorMessage!=''">
             <div class = "container bg-danger text-white rounded text-center p-3 mt-2">

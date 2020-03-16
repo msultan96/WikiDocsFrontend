@@ -1,0 +1,42 @@
+<div class="container h-100 d-flex justify-content-center align-items-center mt-2">
+    <div class="jumbotron my-auto align-self-center">
+        <h1 class="display-4 text-dark">Registration</h1>
+        <form [formGroup]="signUpForm" (ngSubmit)="register()" style="color:#001011">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" formControlName="name" id="name" placeholder="John Doe">
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" class="form-control" formControlName="email" id="email" placeholder="john@gmail.com">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" formControlName="password" id="password">
+			</div>
+			<div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" class="form-control" formControlName="confirmPassword" id="confirmPassword">
+            </div>
+            <div *ngIf="!registrationInProgress" class="row">
+                <button class="btn btn-block btn-success">
+                    Register
+                </button>
+                <button (click)="navigateLogin()" class="btn btn-block btn-secondary">
+                    Go Back
+                </button>
+            </div>
+        </form>
+        <div *ngIf="registrationInProgress" class="d-flex justify-content-center">
+            <div class="spinner-border text-dark text-center" role="status">
+                <span class="sr-only"></span>
+            </div>
+        </div>
+        <div *ngIf="errorMessage!=null && errorMessage!=''">
+            <div class = "container bg-danger text-white rounded text-center p-3 mt-2">
+                {{errorMessage}}
+            </div>        
+        </div>
+    </div>
+</div>
+
