@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ArticleService } from 'src/app/service/article.service';
 import { IdParserService } from 'src/app/service/id-parser.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { User } from 'src/app/shared/models/user';
 import { Article } from 'src/app/shared/models/article';
 import { TransferService } from 'src/app/service/transfer.service';
-import { catchError } from 'rxjs/operators';
+import { Status } from 'src/app/shared/models/status';
 
 @Component({
   selector: 'app-article-viewer',
@@ -22,7 +21,7 @@ export class ArticleViewerComponent implements OnInit {
   etherPadId: string;
   padUrl:string;
   safeUrl:SafeResourceUrl;
-  readOnly:boolean;
+  readOnly:boolean=false;
 
   constructor(private articleService:ArticleService, private idParserService:IdParserService,
               private sanitizer:DomSanitizer, private transferService:TransferService){}
@@ -30,6 +29,7 @@ export class ArticleViewerComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
     this.articleLoaded=false;
+    this.readOnly=false;
     this.data=this.transferService.getData();
     console.log(this.data);
 		this.loadArticle();
@@ -38,16 +38,16 @@ export class ArticleViewerComponent implements OnInit {
   loadArticle(){
     if(this.data){
       this.article = this.data;
-      console.log(this.article);
+      if(this.article.status==Status.APPROVED||this.article.status==Status.BETA||this.article.status==Status.DISCARDED){
+        this.readOnly=true;
+      }
       this.etherPadId = this.idParserService.parse(this.article.id);
-      console.log(this.etherPadId);
       this.articleService.getEtherPadUrl(this.etherPadId).subscribe(
         response =>{
           let responseString:any = response;
           this.padUrl = responseString;
           this.padUrl+="userName=" + spaceConvertor(this.loggedInUser.name);
           this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.padUrl);
-          console.log(this.padUrl);
           this.articleLoaded=true;
         });
       }

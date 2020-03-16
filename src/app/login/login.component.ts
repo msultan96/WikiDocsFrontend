@@ -6,6 +6,7 @@ import { LoginValidators } from '../shared/validators/login.validator';
 import { User } from '../shared/models/user';
 import { Role } from '../shared/models/role';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { TransferService } from '../service/transfer.service';
 
 @Component({
   selector: 'app-login',
@@ -16,11 +17,13 @@ export class LoginComponent implements OnInit {
 
   user:User;
   errorMessage:string ="";
+  successMessage = this.transferService.getData();
   loginForm: FormGroup;
   loginInProgress:Boolean = false;
   faSpinner=faSpinner;
 
-  constructor(private userService:UserService, private router:Router, private formBuilder:FormBuilder) { }
+  constructor(private userService:UserService, private router:Router, private formBuilder:FormBuilder,
+              private transferService:TransferService) { }
 
   ngOnInit(): void {
     this.user = new User();
@@ -57,6 +60,7 @@ export class LoginComponent implements OnInit {
       },
       error => {
         if(error == "No message available"){
+          this.successMessage='';
           this.errorMessage="Something went wrong..."
         }
         else{
@@ -64,6 +68,10 @@ export class LoginComponent implements OnInit {
         }
         this.loginInProgress = false;
       });
+  }
+
+  navigateRegistration(){
+    this.router.navigate(['/signup']);
   }
 
 }

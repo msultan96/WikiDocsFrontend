@@ -1,6 +1,4 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { UserService } from 'src/app/service/user.service';
 import { User } from 'src/app/shared/models/user';
 import { ArticleService } from 'src/app/service/article.service';
 import { Article } from 'src/app/shared/models/article';
@@ -25,7 +23,7 @@ export class CreateArticleComponent {
 	constructor(private articleService:ArticleService, private sanitizer:DomSanitizer,
 				private idParserService:IdParserService){}
 
-	ngOnInit(){
+	ngOnInit(): void{
 		this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
 		this.articleCreated=false;
 		this.createArticle();
@@ -44,7 +42,6 @@ export class CreateArticleComponent {
 	}
 
 	saveArticle(){
-		console.log(this.etherPadId);
 		this.articleService.saveArticle(this.etherPadId).subscribe(
 			response => {
 				console.log(response);

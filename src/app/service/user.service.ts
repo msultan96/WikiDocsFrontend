@@ -19,6 +19,12 @@ export class UserService {
         .pipe(catchError(this.handleError));
   }
 
+  register(user:User):Observable<User> {
+      let url: string = environment.userAPIUrl + "/register";
+      return this.http.post<User>(url,user,{headers:this.headers})
+        .pipe(catchError(this.handleError));
+  }
+
   private handleError(err: HttpErrorResponse) {
     console.log(err);
     let errMsg: string = '';

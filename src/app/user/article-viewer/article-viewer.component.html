@@ -13,7 +13,7 @@
 		</iframe>
 </div>
 
-<div *ngIf="!readOnly" class="row d-flex justify-content-between m-3">
+<div *ngIf="articleLoaded && !readOnly" class="row d-flex justify-content-between m-3">
 	<button (click)="saveArticle()" type="button" class="btn btn-lg btn-primary">
 		Save
 	</button>

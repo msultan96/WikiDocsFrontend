@@ -14,6 +14,7 @@ import { UserRoutingModule } from './user/user-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppGuard } from './app.guard';
 import { ErrorLandingComponent } from './shared/error-landing/error-landing.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { ErrorLandingComponent } from './shared/error-landing/error-landing.comp
     AdminComponent,
     UserComponent,
     LoginComponent,
+    SignUpComponent,
     ErrorLandingComponent,
     ],
   imports: [

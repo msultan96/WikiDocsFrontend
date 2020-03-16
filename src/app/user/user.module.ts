@@ -7,7 +7,6 @@ import { UserRoutingModule } from './user-routing.module';
 import { BetaArticlesComponent } from './beta-articles/beta-articles.component';
 import { ApprovedArticlesComponent } from './approved-articles/approved-articles.component';
 import { CreateArticleComponent } from './create-article/create-article.component';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { RejectedArticlesComponent } from './rejected-articles/rejected-articles.component';
 import { InitialArticlesComponent } from './initial-articles/initial-articles.component';
 import { DiscardedArticlesComponent } from './discarded-articles/discarded-articles.component';
@@ -37,7 +36,6 @@ import { AppRoutingModule } from '../app-routing.module';
         RouterModule,
         BrowserModule,
         FormsModule,
-        CKEditorModule,
         ReactiveFormsModule,
         HttpClientModule,
         SharedPipesModule,
