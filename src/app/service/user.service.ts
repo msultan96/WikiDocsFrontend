@@ -25,22 +25,22 @@ export class UserService {
         .pipe(catchError(this.handleError));
   }
 
-  private handleError(err: HttpErrorResponse) {
-    console.log(err);
+  private handleError(httpErrorResponse: HttpErrorResponse) {
     let errMsg: string = '';
-    if (err.error instanceof Error) {
-        errMsg = err.error.message;
-        console.log(errMsg)
+    // console.log(httpErrorResponse.error.errorMessage);
+    if (httpErrorResponse.error instanceof Error) {
+        errMsg = httpErrorResponse.error.message;
+        // console.log(errMsg)
     }
-    else if (typeof err.error === 'string') {
-        errMsg = JSON.parse(err.error).message
+    else if (typeof httpErrorResponse.error === 'string') {
+        errMsg = JSON.parse(httpErrorResponse.error).message
     }
     else {
-        if (err.status == 0) {
+        if (httpErrorResponse.status == 0) {
             errMsg = "A connection to back end can not be established.";
         } else {
-            errMsg = err.error.message;
-            console.log(errMsg);
+            errMsg = httpErrorResponse.error.errorMessage;
+            // console.log(errMsg);
         }
     }
     return throwError(errMsg);

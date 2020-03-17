@@ -43,7 +43,16 @@ export class SignUpComponent implements OnInit {
         this.registrationInProgress=false;
         this.transferService.setData("You've successfully registered!");
         this.router.navigate(['/login']);
-      })
+      },
+      error => {
+        if(error == "No message available"){
+          this.errorMessage="Something went wrong..."
+        }
+        else{
+          this.errorMessage = error;
+        }
+        this.registrationInProgress = false;
+      });
   }
 
   navigateLogin(){
