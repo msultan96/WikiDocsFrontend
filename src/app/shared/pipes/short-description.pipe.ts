@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class ShortDescriptionPipe implements PipeTransform {
 
-  transform(value: String): unknown {
+  transform(value: string): unknown {
     if(value.length>160) return value.substring(0,160) + " . . . "
     else return value;
   }

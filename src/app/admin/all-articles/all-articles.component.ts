@@ -12,8 +12,11 @@ export class AllArticlesComponent implements OnInit {
 
   articles:Article[] = [];
   loggedInUser:User;
-  approvedPopulated:boolean;
-  betaPopulated:boolean;
+	approvedPopulated:boolean;
+	betaPopulated:boolean;
+	loadArticles:boolean;
+	pageNumber:number=0;
+	pageSize:number=5;
   
   constructor(private articleService:ArticleService) { }
   
@@ -24,18 +27,11 @@ export class AllArticlesComponent implements OnInit {
 
   populateArticles(){
     this.approvedPopulated=false;
-    this.betaPopulated=false;
-    this.articleService.getAllApprovedArticlesAdmin().subscribe(
-      response => {
-        this.approvedPopulated=true;  
-        let tempArticles:Article[] = response
-        this.articles = this.articles.concat(tempArticles);
-      });
-    this.articleService.getAllBetaArticlesAdmin().subscribe(
-      response => {
-        this.betaPopulated=true;  
-        let tempArticles:Article[] = response
-        this.articles = this.articles.concat(tempArticles);
-      });
-    }
+//     this.articleService.getAllApprovedAndBetaArticles(this.pageNumber, this.pageSize).subscribe(
+//       response => {
+//         this.populated=true;  
+//         let tempArticles:Article[] = response
+//         this.articles = this.articles.concat(tempArticles);
+//       });
+	}
 }

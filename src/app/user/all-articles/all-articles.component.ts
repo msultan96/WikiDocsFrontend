@@ -10,26 +10,41 @@ import { ArticleService } from 'src/app/service/article.service';
 })
 export class AllArticlesComponent implements OnInit {
 
-  articles:Article[];
+  articles:Article[] = null;
   loggedInUser:User;
-  populated:Boolean;
-
+  populated:boolean;
+  loadingArticles:boolean;
+  pageNumber:number = 0;
+  pageSize:number = 5;
 
   constructor(private articleService:ArticleService) { }
   
   ngOnInit(): void {
-    console.log("What")
     this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
     this.populateArticles();
   }
 
   populateArticles(){
     this.populated=false;
-    this.articleService.getAllArticles(this.loggedInUser.email).subscribe(
-      response => {
-          this.articles = response;
-          this.populated=true;
+    this.articleService.getAllArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+      articles => {
+				this.articles = articles;
+				this.populated=true;
+				this.pageNumber+=1;
       });
   }
 
+	onScroll(){
+		this.loadingArticles=true;
+		this.articleService.getAllArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+		articles => {
+			if(articles.length>0){
+				this.articles = this.articles.concat(articles)
+				this.pageNumber+=1;
+			}
+			this.loadingArticles=false;
+		});
+	}
+
+	
 }

@@ -4,8 +4,13 @@
 	</div>
 </div>
 
-<div *ngIf="populated" class="card-group"
-	infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="10" (scrolled)="onScrollDown()">
+<div	*ngIf="populated"
+			class="card-group"
+			infiniteScroll
+			[infiniteScrollDistance]="2"
+			[infiniteScrollThrottle]="50"
+			(scrolled)="onScroll()"
+			[scrollWindow]="true">
 	<div *ngFor="let article of articles">
 		<div class="card text-dark d-block m-3">
 			<div class="card-body">

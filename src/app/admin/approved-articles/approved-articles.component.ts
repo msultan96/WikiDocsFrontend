@@ -12,7 +12,10 @@ export class ApprovedArticlesComponent implements OnInit {
 
   articles:Article[];
   loggedInUser:User;
-  populated:boolean;
+	populated:boolean;
+	loadingArticles:boolean;
+	pageNumber:number=0;
+	pageSize:number=5;
 
   constructor(private articleService:ArticleService) { }
   
@@ -23,11 +26,23 @@ export class ApprovedArticlesComponent implements OnInit {
 
   populateArticles(){
     this.populated=false;
-    this.articleService.getAllApprovedArticlesAdmin().subscribe(
+    this.articleService.getAllApprovedArticles(this.pageNumber, this.pageSize).subscribe(
       response => {
         this.populated=true;  
         this.articles = response;
       });
-  }
+	}
+
+	onScroll(){
+		this.loadingArticles=true;
+		this.articleService.getAllApprovedArticles(this.pageNumber, this.pageSize).subscribe(
+		articles => {
+			if(articles.length>0){
+				this.articles = this.articles.concat(articles)
+				this.pageNumber+=1;
+			}
+			this.loadingArticles=false;
+		});
+	}
 
 }
