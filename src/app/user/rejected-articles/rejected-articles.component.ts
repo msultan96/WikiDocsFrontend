@@ -13,7 +13,11 @@ import { Router } from '@angular/router';
 export class RejectedArticlesComponent implements OnInit {
   populated:boolean;
   articles:Article[];
-  loggedInUser:User;
+	loggedInUser:User;
+	loadingArticles:boolean;
+	pageNumber:number=0;
+	pageSize:number=5;
+	
   constructor(private articleService:ArticleService, private transferService:TransferService,
               private router:Router) { }
 
@@ -24,14 +28,27 @@ export class RejectedArticlesComponent implements OnInit {
 
   populateArticles(){
     this.populated=false;
-    this.articleService.getAllRejectedArticles(this.loggedInUser.email).subscribe(
+    this.articleService.getAllRejectedArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
       response => {
           this.populated=true;
-          this.articles = response;
+					this.articles = response;
+					this.pageNumber+=1;
       });
   }
 
-  submitArticle(article:Article){
+	onScroll(){
+		this.loadingArticles=true;
+		this.articleService.getAllRejectedArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+		articles => {
+			if(articles.length>0){
+				this.articles = this.articles.concat(articles)
+				this.pageNumber+=1;
+			}
+			this.loadingArticles=false;
+		});
+	}
+
+	submitArticle(article:Article){
     console.log("Article submitted");
     this.articleService.submitArticleForApproval(article).subscribe(
       response => {

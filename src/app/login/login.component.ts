@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
   errorMessage:string ="";
   successMessage = this.transferService.getData();
   loginForm: FormGroup;
-  loginInProgress:Boolean = false;
+  loginInProgress:boolean = false;
   faSpinner=faSpinner;
 
   constructor(private userService:UserService, private router:Router, private formBuilder:FormBuilder,

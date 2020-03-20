@@ -1,21 +1,31 @@
 <div *ngIf="!populated" class="h-100 d-flex justify-content-center align-items-center">
-		<div class="spinner-border text-primary" style="width: 6rem; height: 6rem;" role="status">
-			<span class="sr-only"></span>
-		</div>
+	<div class="spinner-border text-primary" style="width: 6rem; height: 6rem;" role="status">
+		<span class="sr-only"></span>
 	</div>
-	
-	<div *ngIf="populated" class="card-group">
-		<div *ngFor="let article of articles">
-			<div class="card h-100 text-dark d-block m-3">
-				<div class="card-body">
-					<h5 class="card-title">{{article.name}}</h5>
-					<p class="card-text">
-						{{article.content}}
-					</p>
-				</div>
-				<div class="card-footer">
-					<small class="text-muted">{{article.status}}</small>
-				</div>
+</div>
+<div	*ngIf="populated"
+			class="card-group"
+			infiniteScroll
+			[infiniteScrollDistance]="2"
+			[infiniteScrollThrottle]="50"
+			(scrolled)="onScroll()"
+			[scrollWindow]="true">
+	<div *ngFor="let article of articles">
+		<div class="card h-100 text-dark d-block m-3">
+			<div class="card-body">
+				<h5 class="card-title">{{article.name}}</h5>
+				<p class="card-text">
+					{{article.content}}
+				</p>
+			</div>
+			<div class="card-footer">
+				<small class="text-muted">{{article.status}}</small>
 			</div>
 		</div>
 	</div>
+</div>
+<div *ngIf="loadingArticles" class="d-flex justify-content-center align-items-center m-4">
+	<div class="spinner-border text-white" style="width: 1rem; height: 1rem;" role="status">
+		<span class="sr-only"></span>
+	</div>
+</div>

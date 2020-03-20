@@ -11,7 +11,10 @@ import { User } from 'src/app/shared/models/user';
 export class ApprovedArticlesComponent implements OnInit {
   populated:boolean;
   articles:Article[];
-  loggedInUser:User;
+	loggedInUser:User;
+	loadingArticles:boolean;
+	pageNumber:number=0;
+	pageSize:number=5;
 
   constructor(private articleService:ArticleService) { }
 
@@ -22,11 +25,24 @@ export class ApprovedArticlesComponent implements OnInit {
 
   populateArticles(){
     this.populated=false;
-    this.articleService.getAllApprovedArticles(this.loggedInUser.email).subscribe(
+    this.articleService.getAllApprovedArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
       response => {
           this.populated=true;
-          this.articles=response;
+					this.articles=response;
+					this.pageNumber+=1;
       });
-  }
+	}
+	
+	onScroll(){
+		this.loadingArticles=true;
+		this.articleService.getAllInitialArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+		articles => {
+			if(articles.length>0){
+				this.articles = this.articles.concat(articles)
+				this.pageNumber+=1;
+			}
+			this.loadingArticles=false;
+		});
+	}
 
 }

@@ -14,6 +14,10 @@ export class InitialArticlesComponent implements OnInit {
   populated:boolean;
   articles:Article[];
   loggedInUser:User;
+  loadingArticles:boolean;
+  pageNumber:number = 0;
+  pageSize:number = 5;
+
   constructor(private router:Router, private articleService:ArticleService, 
     private transferService:TransferService) { }
 
@@ -24,19 +28,30 @@ export class InitialArticlesComponent implements OnInit {
 
   populateArticles(){
     this.populated=false;
-    this.articleService.getAllInitialArticles(this.loggedInUser.email).subscribe(
+    this.articleService.getAllInitialArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
       response => {
           this.populated=true;
-          this.articles = response;
+					this.articles = response;
+					this.pageNumber+=1;
       });
   }
 
-  submitArticle(article:Article){
-    console.log("Article submitted");
+  onScroll(){
+		this.loadingArticles=true;
+		this.articleService.getAllInitialArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+		articles => {
+			if(articles.length>0){
+				this.articles = this.articles.concat(articles)
+				this.pageNumber+=1;
+			}
+			this.loadingArticles=false;
+		});
+	}
+
+	submitArticle(article:Article){
     this.articleService.submitArticleForApproval(article).subscribe(
       response => {
-          console.log(response);
-          this.populateArticles();
+          // this.articles = this.articles.splice(article);
       });
   }
 

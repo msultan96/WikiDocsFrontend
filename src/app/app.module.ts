@@ -15,6 +15,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppGuard } from './app.guard';
 import { ErrorLandingComponent } from './shared/error-landing/error-landing.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
     LoginRoutingModule,
     UserRoutingModule,
     AdminRoutingModule,
-    FontAwesomeModule,
+	FontAwesomeModule,
+	InfiniteScrollModule
   ],
   providers: [AppGuard],
   bootstrap: [AppComponent],

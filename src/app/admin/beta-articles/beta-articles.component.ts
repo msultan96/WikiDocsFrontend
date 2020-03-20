@@ -12,7 +12,10 @@ export class BetaArticlesComponent implements OnInit {
 
   articles:Article[];
   loggedInUser:User;
-  populated:boolean;
+	populated:boolean;
+	loadingArticles:boolean;
+	pageNumber:number=0;
+	pageSize:number=5;
 
   constructor(private articleService:ArticleService) { }
   
@@ -23,26 +26,38 @@ export class BetaArticlesComponent implements OnInit {
 
   populateArticles(){
     this.populated=false;
-    this.articleService.getAllBetaArticlesAdmin().subscribe(
+    this.articleService.getAllBetaArticles(this.pageNumber, this.pageSize).subscribe(
       response => {
         this.populated=true;  
-        this.articles = response;
+				this.articles = response;
+				this.pageNumber+=1
       });
-  }
+	}
+	
+	onScroll(){
+		this.loadingArticles=true;
+		this.articleService.getAllBetaArticles(this.pageNumber, this.pageSize).subscribe(
+		articles => {
+			if(articles.length>0){
+				this.articles = this.articles.concat(articles)
+				this.pageNumber+=1;
+			}
+			this.loadingArticles=false;
+		});
+	}
 
   approveArticle(article:Article){
     this.articleService.approveArticle(article).subscribe(
       response => {
         this.populateArticles();
-      }
-    )
-  }
+			});
+	}
 
   rejectArticle(article:Article){
     this.articleService.rejectArticle(article).subscribe(
       response => {
         this.populateArticles();
-      }
-    )
-  }
+			});
+	}
+	
 }

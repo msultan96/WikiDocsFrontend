@@ -10,61 +10,69 @@ import { Article } from '../shared/models/article';
 })
 export class ArticleService {
   private headers = new HttpHeaders({'Content-Type': 'application/json' });
-  constructor(private http:HttpClient) { }
-
-  getAllArticles(email: string): Observable<Article[]> {
-    let url: string = environment.articleAPIUrl + "/getAllArticlesByEmail/" + email + '/';
+	constructor(private http:HttpClient) { }
+	
+	getAllApprovedArticles(pageNumber:number, pageSize:number): Observable<Article[]> {
+		let pathVariables = pageNumber + "/" + pageSize + "/";
+    let url: string = environment.articleAPIUrl + "/getAllApprovedArticles/" + pathVariables;
     return this.http.get<Article[]>(url)
         .pipe(catchError(this.handleError));
   }
 
-  getAllApprovedArticles(email: string): Observable<Article[]> {
-    let url: string = environment.articleAPIUrl + "/getAllApprovedArticlesByEmail/" + email + '/';
+  getAllBetaArticles(pageNumber:number, pageSize:number): Observable<Article[]> {
+		let pathVariables = pageNumber + "/" + pageSize + "/";
+    let url: string = environment.articleAPIUrl + "/getAllBetaArticles/" + pathVariables;
     return this.http.get<Article[]>(url)
         .pipe(catchError(this.handleError));
   }
 
-  getAllBetaArticles(email: string): Observable<Article[]> {
-    let url: string = environment.articleAPIUrl + "/getAllBetaArticlesByEmail/" + email + '/';
+	getAllArticlesByEmail(email: string, pageNumber:number, pageSize:number): Observable<Article[]> {
+		let pathVariables = email + "/" + pageNumber + "/" + pageSize + "/";
+		let url: string = environment.articleAPIUrl + "/getAllArticlesByEmail/" + pathVariables;
+		return this.http.get<Article[]>(url)
+			.pipe(catchError(this.handleError));
+	}
+
+  getAllApprovedArticlesByEmail(email: string, pageNumber:number, pageSize:number): Observable<Article[]> {
+		let pathVariables = email + "/" + pageNumber + "/" + pageSize + "/";
+    let url: string = environment.articleAPIUrl + "/getAllApprovedArticlesByEmail/" + pathVariables
     return this.http.get<Article[]>(url)
         .pipe(catchError(this.handleError));
   }
 
-  getAllInitialArticles(email: string): Observable<Article[]> {
-    let url: string = environment.articleAPIUrl + "/getAllInitialArticlesByEmail/" + email + '/';
+  getAllBetaArticlesByEmail(email: string, pageNumber:number, pageSize:number): Observable<Article[]> {
+		let pathVariables = email + "/" + pageNumber + "/" + pageSize + "/";
+    let url: string = environment.articleAPIUrl + "/getAllBetaArticlesByEmail/" + pathVariables
     return this.http.get<Article[]>(url)
         .pipe(catchError(this.handleError));
   }
 
-  getAllRejectedArticles(email: string): Observable<Article[]> {
-    let url: string = environment.articleAPIUrl + "/getAllRejectedArticlesByEmail/" + email + '/';
+  getAllInitialArticlesByEmail(email: string, pageNumber:number, pageSize:number): Observable<Article[]> {
+		let pathVariables = email + "/" + pageNumber + "/" + pageSize + "/";
+    let url: string = environment.articleAPIUrl + "/getAllInitialArticlesByEmail/" + pathVariables;
     return this.http.get<Article[]>(url)
         .pipe(catchError(this.handleError));
   }
 
-  getAllDiscardedArticles(email: string): Observable<Article[]> {
-    let url: string = environment.articleAPIUrl + "/getAllDiscardedArticlesByEmail/" + email + '/';
+  getAllRejectedArticlesByEmail(email: string, pageNumber:number, pageSize:number): Observable<Article[]> {
+		let pathVariables = email + "/" + pageNumber + "/" + pageSize + "/";
+    let url: string = environment.articleAPIUrl + "/getAllRejectedArticlesByEmail/" + pathVariables
     return this.http.get<Article[]>(url)
         .pipe(catchError(this.handleError));
   }
 
-  submitArticleForApproval(article: Article): Observable<Article> {
+  getAllDiscardedArticlesByEmail(email: string, pageNumber:number, pageSize:number): Observable<Article[]> {
+		let pathVariables = email + "/" + pageNumber + "/" + pageSize + "/";
+    let url: string = environment.articleAPIUrl + "/getAllDiscardedArticlesByEmail/" + pathVariables
+    return this.http.get<Article[]>(url)
+        .pipe(catchError(this.handleError));
+  }
+
+	submitArticleForApproval(article: Article): Observable<Article> {
     let url: string = environment.articleAPIUrl + "/submitArticleForApproval";
     return this.http.post<Article>(url, article, {headers:this.headers})
         .pipe(catchError(this.handleError));
-  }
-
-  getAllApprovedArticlesAdmin(): Observable<Article[]> {
-    let url: string = environment.articleAPIUrl + "/getApprovedArticles/";
-    return this.http.get<Article[]>(url)
-        .pipe(catchError(this.handleError));
-  }
-
-  getAllBetaArticlesAdmin(): Observable<Article[]> {
-    let url: string = environment.articleAPIUrl + "/getBetaArticles/";
-    return this.http.get<Article[]>(url)
-        .pipe(catchError(this.handleError));
-  }
+	}
 
   approveArticle(article: Article): Observable<Article> {
     let url: string = environment.articleAPIUrl + "/approveArticle";
@@ -91,7 +99,7 @@ export class ArticleService {
         .pipe(catchError(this.handleError));
   }
 
-  saveArticle(etherPadId:String): Observable<Article>{
+  saveArticle(etherPadId:string): Observable<Article>{
       let url: string = environment.articleAPIUrl + "/saveArticle";
       return this.http.post<Article>(url, etherPadId, {headers:this.headers})
       .pipe(catchError(this.handleError));

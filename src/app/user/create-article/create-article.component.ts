@@ -16,8 +16,8 @@ export class CreateArticleComponent {
 	loggedInUser:User;
 	articleCreated:boolean;
 	article:Article;
-	padUrl:String = "http://localhost:9001/p/"
-	etherPadId: String;
+	padUrl:string = "http://localhost:9001/p/"
+	etherPadId: string;
 
 
 	constructor(private articleService:ArticleService, private sanitizer:DomSanitizer,
