@@ -5,6 +5,8 @@ import { User } from 'src/app/shared/models/user';
 import { TransferService } from 'src/app/service/transfer.service';
 import { Router } from '@angular/router';
 import { IdParserService } from 'src/app/service/id-parser.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-rejected-articles',
@@ -18,13 +20,26 @@ export class RejectedArticlesComponent implements OnInit {
 	loadingArticles:boolean;
 	pageNumber:number=0;
 	pageSize:number=5;
+	inviteCollaboratorForm:FormGroup;
+	inviting:boolean;
+	errorMessage:string;
+	successMessage:string;
 	
-  constructor(private articleService:ArticleService, private transferService:TransferService,
-							private router:Router, private idParserService:IdParserService) { }
+	constructor(
+		private formBuilder:FormBuilder,
+		private articleService:ArticleService,
+		private transferService:TransferService,
+		private modalService:NgbModal, 
+		private router:Router,
+		private idParserService:IdParserService) { }
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
-    this.populateArticles();
+		this.populateArticles();
+		this.inviteCollaboratorForm = this.formBuilder.group({
+			articleId:[''],
+			email:['']
+		});
   }
 
   populateArticles(){
@@ -60,6 +75,48 @@ export class RejectedArticlesComponent implements OnInit {
   viewArticle(article:Article){
     this.transferService.setData(article);
     this.router.navigate(['User/Articles/Your/Viewing']);
-  }
+	}
+	
+	showInviteModal(targetModal, article:Article) {
+		let parsedId = this.idParserService.parse(article.id);
+		this.modalService.open(targetModal, {
+		 centered: true,
+		 backdrop: 'static'
+		});
+	 
+		this.inviteCollaboratorForm.patchValue({
+			articleId: parsedId,
+		 	email: ''
+		});
+	 }
+
+	inviteSubmit(){
+		this.errorMessage = '';
+		this.successMessage = '';
+		let articleId = this.inviteCollaboratorForm.get("articleId").value;
+		let email = this.inviteCollaboratorForm.get("email").value;
+		this.inviting=true;
+		this.articleService.inviteUserToCollaborateByEmail(email, articleId).subscribe(
+			response =>{
+				let fullName = response;
+				this.successMessage = fullName + " has been successfully invited to collaborate";
+				this.inviting=false;
+				this.inviteCollaboratorForm.patchValue({
+					email: ''
+				})
+			},
+			error => {
+				this.errorMessage = error;
+				this.inviting=false;
+			}
+		)
+	 }
+
+	 closeInviteModal(){
+		this.errorMessage='';
+		this.successMessage='';
+		this.inviting=false;
+		this.modalService.dismissAll();
+ }
 
 }

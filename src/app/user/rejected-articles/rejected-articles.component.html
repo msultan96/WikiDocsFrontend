@@ -2,9 +2,9 @@
 		<div class="spinner-border text-primary" style="width: 6rem; height: 6rem;" role="status">
 			<span class="sr-only"></span>
 		</div>
-	</div>
+</div>
 	
-	<div	*ngIf="populated"
+<div	*ngIf="populated"
 				class="card-group"
 				infiniteScroll
 				[infiniteScrollDistance]="2"
@@ -24,6 +24,9 @@
 					<button (click)="viewArticle(article)" type="button" class="btn btn-lg btn-warning">
 						Edit
 					</button>
+					<button (click)="showInviteModal(inviteCollaborator, article)" type="button"  class="btn btn-lg btn-info" >
+							Invite
+						</button>
 					<button (click)="submitArticle(article)" type="button" class="btn btn-lg btn-success">
 						Submit
 					</button>
@@ -32,3 +35,46 @@
 		</div>
 	</div>
 </div>
+
+<ng-template #inviteCollaborator let-modal>
+		<div class="modal-header text-dark">
+		 <h5 class="modal-title " id="inviteCollaboratorLabel">Invite A Collaborator</h5>
+		 <button type="button" class="close" (click)="closeInviteModal()" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		 </button>
+		</div>
+		
+		<div class="modal-body text-dark">
+		 <form [formGroup]="inviteCollaboratorForm" (ngSubmit)="inviteSubmit()">
+			<div class="form-group row">
+			 <label for="email" class="col-sm-4 col-form-label">Email of Invitee</label>
+			 <div class="col-sm-8">
+				<input type="email" class="form-control" formControlName="email" id="email">
+			 </div>
+			</div>
+	
+			<div class="modal-footer text-dark">
+				<div *ngIf="inviting" class="h-100 d-flex justify-content-center align-items-center">
+						<div class="spinner-border text-primary" style="width: 1rem; height: 1rem;" role="status">
+							<span class="sr-only"></span>
+						</div>
+				</div>
+				<div>
+						<button type="button" class="btn btn-secondary m-1 " (click)="closeInviteModal()">Close</button>
+						<button [disabled]="inviting" type="submit" class="btn btn-primary m-1">Invite</button>
+				</div>
+			 
+				<div *ngIf="successMessage!=null && successMessage!=''">
+						<div class = "container bg-success text-white rounded text-center">
+								{{successMessage}}
+						</div>  
+				</div>
+				<div *ngIf="errorMessage!=null && errorMessage!=''">
+						<div class = "container bg-danger text-white rounded text-center">
+								{{errorMessage}}
+						</div>        
+			</div>
+			</div>
+		 </form>
+		</div>
+	 </ng-template>

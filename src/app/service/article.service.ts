@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from "../../environments/environment";
 import { Article } from '../shared/models/article';
+import { User } from '../shared/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +69,12 @@ export class ArticleService {
         .pipe(catchError(this.handleError));
   }
 
+	getAllInvitedArticlesByEmail(email: string, pageNumber:number, pageSize:number): Observable<Article[]> {
+		let pathVariables = email + "/" + pageNumber + "/" + pageSize + "/";
+    let url: string = environment.articleAPIUrl + "/getAllInvitedArticlesByEmail/" + pathVariables
+    return this.http.get<Article[]>(url)
+        .pipe(catchError(this.handleError));
+  }
 	submitArticleForApproval(articleId: string): Observable<Article> {
     let url: string = environment.articleAPIUrl + "/submitArticleForApproval";
     return this.http.post<Article>(url, articleId, {headers:this.headers})
@@ -109,22 +116,29 @@ export class ArticleService {
     let url: string = environment.articleAPIUrl + "/getEtherPadUrl";
     return this.http.post<string>(url, articleId, {responseType:'text' as 'json' })
       .pipe(catchError(this.handleError));
-  }
+	}
+	
+	inviteUserToCollaborateByEmail(email:string, articleId:string): Observable<string>{
+		let url: string = environment.articleAPIUrl + "/inviteUserToCollaborateByEmail/";
+		const object = {"email":email, "articleId":articleId};
+    return this.http.post<string>(url, object,{responseType:'text' as 'json' })
+      .pipe(catchError(this.handleError));
+	}
 
 
 private handleError(err: HttpErrorResponse) {
-    let errMsg: string = '';
+		let errMsg: string = '';
     if (err.error instanceof Error) {
         errMsg = err.error.message;
     }
     else if (typeof err.error === 'string') {
-        errMsg = JSON.parse(err.error).message
+        errMsg = JSON.parse(err.error).errorMessage;
     }
     else {
         if (err.status == 0) {
             errMsg = "A connection to the back end could not be established.";
         } else {
-            errMsg = err.error.message;
+            errMsg = err.error.errorMessage;
         }
     }
     return throwError(errMsg);

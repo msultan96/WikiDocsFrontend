@@ -16,6 +16,8 @@ import { AppGuard } from './app.guard';
 import { ErrorLandingComponent } from './shared/error-landing/error-landing.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 @NgModule({
@@ -38,8 +40,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     LoginRoutingModule,
     UserRoutingModule,
     AdminRoutingModule,
-	FontAwesomeModule,
-	InfiniteScrollModule
+		FontAwesomeModule,
+		InfiniteScrollModule,
+		NgbModule,
   ],
   providers: [AppGuard],
   bootstrap: [AppComponent],
