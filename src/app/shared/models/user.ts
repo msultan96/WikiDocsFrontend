@@ -6,7 +6,8 @@ export class User
     id: string;
     email: string;
     password: string;
-    name: string;
-    articles: Article[];
+		name: string;
+		articles: Article[];
+		collaboratingArticles: [];
     role: Role;
 }

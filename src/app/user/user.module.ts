@@ -17,6 +17,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ArticleViewerComponent } from './article-viewer/article-viewer.component';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from '../app-routing.module';
+import { InvitedArticlesComponent } from './invited-articles/invited-articles.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     declarations: [
@@ -29,7 +31,7 @@ import { AppRoutingModule } from '../app-routing.module';
         AllArticlesComponent,
         AllApprovedArticlesComponent,
         ArticleViewerComponent,
-        
+        InvitedArticlesComponent,
 ],
     imports: [
         AppRoutingModule,
@@ -39,7 +41,8 @@ import { AppRoutingModule } from '../app-routing.module';
         ReactiveFormsModule,
         HttpClientModule,
         SharedPipesModule,
-        InfiniteScrollModule,
+				InfiniteScrollModule,
+				NgbModule
         
     ],
     providers: [
