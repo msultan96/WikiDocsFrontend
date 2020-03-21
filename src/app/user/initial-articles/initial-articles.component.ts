@@ -4,6 +4,7 @@ import { Article } from 'src/app/shared/models/article';
 import { User } from 'src/app/shared/models/user';
 import { Router } from '@angular/router';
 import { TransferService } from 'src/app/service/transfer.service';
+import { IdParserService } from 'src/app/service/id-parser.service';
 
 @Component({
   selector: 'app-initial-articles',
@@ -19,7 +20,7 @@ export class InitialArticlesComponent implements OnInit {
   pageSize:number = 5;
 
   constructor(private router:Router, private articleService:ArticleService, 
-    private transferService:TransferService) { }
+    private transferService:TransferService, private idParserService:IdParserService) { }
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
@@ -39,9 +40,9 @@ export class InitialArticlesComponent implements OnInit {
   onScroll(){
 		this.loadingArticles=true;
 		this.articleService.getAllInitialArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
-		articles => {
-			if(articles.length>0){
-				this.articles = this.articles.concat(articles)
+		response => {
+			if(response.length>0){
+				this.articles = this.articles.concat(response)
 				this.pageNumber+=1;
 			}
 			this.loadingArticles=false;
@@ -49,9 +50,10 @@ export class InitialArticlesComponent implements OnInit {
 	}
 
 	submitArticle(article:Article){
-    this.articleService.submitArticleForApproval(article).subscribe(
+		let parsedId = this.idParserService.parse(article.id);
+    this.articleService.submitArticleForApproval(parsedId).subscribe(
       response => {
-          // this.articles = this.articles.splice(article);
+				this.articles = this.articles.filter((item) => item != article);
       });
   }
 

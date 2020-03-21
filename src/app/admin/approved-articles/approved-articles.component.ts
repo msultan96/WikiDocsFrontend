@@ -29,7 +29,8 @@ export class ApprovedArticlesComponent implements OnInit {
     this.articleService.getAllApprovedArticles(this.pageNumber, this.pageSize).subscribe(
       response => {
         this.populated=true;  
-        this.articles = response;
+				this.articles = response;
+				this.pageNumber+=1;
       });
 	}
 

@@ -4,6 +4,7 @@ import { Article } from 'src/app/shared/models/article';
 import { User } from 'src/app/shared/models/user';
 import { TransferService } from 'src/app/service/transfer.service';
 import { Router } from '@angular/router';
+import { IdParserService } from 'src/app/service/id-parser.service';
 
 @Component({
   selector: 'app-rejected-articles',
@@ -19,7 +20,7 @@ export class RejectedArticlesComponent implements OnInit {
 	pageSize:number=5;
 	
   constructor(private articleService:ArticleService, private transferService:TransferService,
-              private router:Router) { }
+							private router:Router, private idParserService:IdParserService) { }
 
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
@@ -49,11 +50,10 @@ export class RejectedArticlesComponent implements OnInit {
 	}
 
 	submitArticle(article:Article){
-    console.log("Article submitted");
-    this.articleService.submitArticleForApproval(article).subscribe(
+		let parsedId = this.idParserService.parse(article.id);
+    this.articleService.submitArticleForApproval(parsedId).subscribe(
       response => {
-          console.log(response);
-          this.populateArticles();
+				this.articles = this.articles.filter((item) => item != article);
       });
   }
 

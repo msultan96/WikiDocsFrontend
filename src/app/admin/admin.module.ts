@@ -8,6 +8,7 @@ import { BetaArticlesComponent } from './beta-articles/beta-articles.component';
 import { ApprovedArticlesComponent } from './approved-articles/approved-articles.component';
 import { AllArticlesComponent } from './all-articles/all-articles.component';
 import { SharedPipesModule } from '../shared/pipes/shared-pipes/shared-pipes.module';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { SharedPipesModule } from '../shared/pipes/shared-pipes/shared-pipes.mod
         ReactiveFormsModule,
         HttpClientModule,
         AdminRoutingModule,
-        SharedPipesModule
+				SharedPipesModule,
+				InfiniteScrollModule
     ],
     providers: [
     ],
