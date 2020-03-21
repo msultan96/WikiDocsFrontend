@@ -68,21 +68,21 @@ export class ArticleService {
         .pipe(catchError(this.handleError));
   }
 
-	submitArticleForApproval(article: Article): Observable<Article> {
+	submitArticleForApproval(articleId: string): Observable<Article> {
     let url: string = environment.articleAPIUrl + "/submitArticleForApproval";
-    return this.http.post<Article>(url, article, {headers:this.headers})
+    return this.http.post<Article>(url, articleId, {headers:this.headers})
         .pipe(catchError(this.handleError));
 	}
 
-  approveArticle(article: Article): Observable<Article> {
+  approveArticle(articleId: string): Observable<Article> {
     let url: string = environment.articleAPIUrl + "/approveArticle";
-    return this.http.post<Article>(url, article, {headers:this.headers})
+    return this.http.post<Article>(url, articleId, {headers:this.headers})
         .pipe(catchError(this.handleError));
   }
 
-  rejectArticle(article: Article): Observable<Article> {
+  rejectArticle(articleId: string): Observable<Article> {
     let url: string = environment.articleAPIUrl + "/rejectArticle";
-    return this.http.post<Article>(url, article, {headers:this.headers})
+    return this.http.post<Article>(url, articleId, {headers:this.headers})
         .pipe(catchError(this.handleError));
   }
 

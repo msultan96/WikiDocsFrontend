@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Article } from 'src/app/shared/models/article';
 import { User } from 'src/app/shared/models/user';
 import { ArticleService } from 'src/app/service/article.service';
+import { IdParserService } from 'src/app/service/id-parser.service';
 
 @Component({
   selector: 'app-beta-articles',
@@ -17,7 +18,7 @@ export class BetaArticlesComponent implements OnInit {
 	pageNumber:number=0;
 	pageSize:number=5;
 
-  constructor(private articleService:ArticleService) { }
+  constructor(private articleService:ArticleService, private idParserService:IdParserService) { }
   
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
@@ -47,16 +48,18 @@ export class BetaArticlesComponent implements OnInit {
 	}
 
   approveArticle(article:Article){
-    this.articleService.approveArticle(article).subscribe(
+		let parsedId = this.idParserService.parse(article.id);
+    this.articleService.approveArticle(parsedId).subscribe(
       response => {
-        this.populateArticles();
+        this.articles = this.articles.filter((item) => item != article);
 			});
 	}
 
   rejectArticle(article:Article){
-    this.articleService.rejectArticle(article).subscribe(
+		let parsedId = this.idParserService.parse(article.id);
+    this.articleService.rejectArticle(parsedId).subscribe(
       response => {
-        this.populateArticles();
+        this.articles = this.articles.filter((item) => item != article);
 			});
 	}
 	
