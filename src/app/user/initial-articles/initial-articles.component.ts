@@ -14,14 +14,15 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./initial-articles.component.css']
 })
 export class InitialArticlesComponent implements OnInit {
-  populated:boolean;
+	populated:boolean;
+  loadingArticles:boolean;
+	inviting:boolean;
+	
   articles:Article[];
   loggedInUser:User;
-  loadingArticles:boolean;
   pageNumber:number = 0;
 	pageSize:number = 5;
 	inviteCollaboratorForm:FormGroup;
-	inviting:boolean;
 	errorMessage:string;
 	successMessage:string;
 
@@ -67,10 +68,12 @@ export class InitialArticlesComponent implements OnInit {
 	}
 
 	submitArticle(article:Article){
+		this.populated=false;
 		let parsedId = this.idParserService.parse(article.id);
     this.articleService.submitArticleForApproval(parsedId).subscribe(
       response => {
 				this.articles = this.articles.filter((item) => item != article);
+				this.populated=true;
       });
   }
 
