@@ -82,14 +82,14 @@ export class ArticleService {
 	}
 
   approveArticle(articleId: string): Observable<Article> {
-    let url: string = environment.articleAPIUrl + "/approveArticle";
-    return this.http.post<Article>(url, articleId, {headers:this.headers})
+    let url: string = environment.articleAPIUrl + "/approveArticle/" + articleId;
+    return this.http.get<Article>(url, {headers:this.headers})
         .pipe(catchError(this.handleError));
   }
 
   rejectArticle(articleId: string): Observable<Article> {
-    let url: string = environment.articleAPIUrl + "/rejectArticle";
-    return this.http.post<Article>(url, articleId, {headers:this.headers})
+    let url: string = environment.articleAPIUrl + "/rejectArticle/" + articleId;
+    return this.http.post<Article>(url, {headers:this.headers})
         .pipe(catchError(this.handleError));
   }
 
@@ -99,9 +99,9 @@ export class ArticleService {
         .pipe(catchError(this.handleError));
   }
 
-  createNewArticle(email:string): Observable<Article> {
+  createNewArticle(email:string, articleName:string): Observable<Article> {
     let url: string = environment.articleAPIUrl + "/createNewArticle"
-    const object = {"email":email};
+    const object = {"email":email, "articleName":articleName};
     return this.http.post<Article>(url,object,{headers:this.headers})
         .pipe(catchError(this.handleError));
   }
