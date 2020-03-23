@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ArticleService } from 'src/app/service/article.service';
 import { Article } from 'src/app/shared/models/article';
-import { User } from 'src/app/shared/models/user';
 import { Router } from '@angular/router';
 import { TransferService } from 'src/app/service/transfer.service';
 import { IdParserService } from 'src/app/service/id-parser.service';
@@ -19,7 +18,7 @@ export class InitialArticlesComponent implements OnInit {
 	inviting:boolean;
 	
   articles:Article[];
-  loggedInUser:User;
+  email:string;
   pageNumber:number = 0;
 	pageSize:number = 5;
 	inviteCollaboratorForm:FormGroup;
@@ -35,7 +34,7 @@ export class InitialArticlesComponent implements OnInit {
 		private idParserService:IdParserService) { }
 
   ngOnInit(): void {
-    this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
+    this.email = localStorage.getItem('email');  		
 		this.populateArticles();
 		
 		this.inviteCollaboratorForm = this.formBuilder.group({
@@ -47,7 +46,7 @@ export class InitialArticlesComponent implements OnInit {
 
   populateArticles(){
     this.populated=false;
-    this.articleService.getAllInitialArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+    this.articleService.getAllInitialArticlesByEmail(this.email, this.pageNumber, this.pageSize).subscribe(
       response => {
           this.populated=true;
 					this.articles = response;
@@ -57,7 +56,7 @@ export class InitialArticlesComponent implements OnInit {
 
   onScroll(){
 		this.loadingArticles=true;
-		this.articleService.getAllInitialArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+		this.articleService.getAllInitialArticlesByEmail(this.email, this.pageNumber, this.pageSize).subscribe(
 		response => {
 			if(response.length>0){
 				this.articles = this.articles.concat(response)

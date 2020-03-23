@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../service/user.service';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule, NgForm } from '@angular/forms';
 import { LoginValidators } from '../shared/validators/login.validator';
 import { User } from '../shared/models/user';
 import { Role } from '../shared/models/role';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { TransferService } from '../service/transfer.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,63 +16,57 @@ import { TransferService } from '../service/transfer.service';
 })
 export class LoginComponent implements OnInit {
 
-  user:User;
-  errorMessage:string ="";
-  successMessage = this.transferService.getData();
-  loginForm: FormGroup;
-  loginInProgress:boolean = false;
-  faSpinner=faSpinner;
+	faSpinner=faSpinner;
+		
+	loginForm: FormGroup;
+	email: '';
+	password: '';
+	isLoading=false;
 
-  constructor(private userService:UserService, private router:Router, private formBuilder:FormBuilder,
-              private transferService:TransferService) { }
+	errorMessage:string ="";
+  successMessage = this.transferService.getData();
+
+	constructor(
+		private userService:UserService,
+		private router:Router,
+		private formBuilder:FormBuilder,
+		private transferService:TransferService,
+		private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.user = new User();
-    this.createLoginForm();
-  }
-
-  createLoginForm(){
-    this.loginForm = this.formBuilder.group({
-      email: [this.user.email, [Validators.required, LoginValidators.validateEmailId], null],
-      password: [this.user.password, [Validators.required], null]
+		localStorage.clear();
+		this.loginForm = this.formBuilder.group({
+      email: [null, [Validators.required]],
+      password: [null, [Validators.required]]
     });
+
   }
 
-  login(){
-    this.loginInProgress=true;
-    this.errorMessage=null;
-    this.user = this.loginForm.value as User;
-
-    this.userService.login(this.user).subscribe(
+  login(form: NgForm){
+		this.isLoading=true;
+    this.authService.login(form).subscribe(
       response => {
-        this.user = response;
-        sessionStorage.setItem("user", JSON.stringify(this.user));
-        sessionStorage.setItem("userRole", this.user.role);
-        
-
-        this.loginInProgress = false;
-        if(this.user.role==Role.USER){
-          this.router.navigate(['/User/Articles/All/Approved']);
-        } else if(this.user.role==Role.ADMIN){
-          this.router.navigate(['/Admin/Articles/All']);
-        } else{
-          this.router.navigate(["Error"]);
-        }
+				console.log(response);
+				if(response.token && response.username){
+					this.isLoading = false;
+					localStorage.setItem('token', response.token);
+					localStorage.setItem('email', response.username);
+					if(response.role[0].role === "USER"){
+						this.router.navigate(['User/Articles/All/Approved'])
+					}
+					if(response.role[0].role === "ADMIN"){
+						this.router.navigate(['Admin/Articles/All'])
+					}
+				}
       },
       error => {
-        if(error == "No message available"){
-          this.successMessage='';
-          this.errorMessage="Something went wrong..."
-        }
-        else{
-          this.errorMessage = error;
-        }
-        this.loginInProgress = false;
+        console.log(error);
+        this.isLoading = false;
       });
   }
 
   navigateRegistration(){
-    this.router.navigate(['/signup']);
+    this.router.navigate(['/register']);
   }
 
 }

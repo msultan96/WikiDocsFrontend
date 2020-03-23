@@ -11,7 +11,7 @@ import { User } from 'src/app/shared/models/user';
 export class BetaArticlesComponent implements OnInit {
   populated:boolean;
   articles:Article[];
-	loggedInUser:User;
+	email:string;
 	loadingArticles:boolean;
 	pageNumber:number=0;
 	pageSize:number=5;
@@ -19,13 +19,13 @@ export class BetaArticlesComponent implements OnInit {
   constructor(private articleService:ArticleService) { }
 
   ngOnInit(): void {
-    this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
+    this.email = localStorage.getItem('email');  
     this.populateArticles();
   }
 
   populateArticles(){
     this.populated=false;
-    this.articleService.getAllBetaArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+    this.articleService.getAllBetaArticlesByEmail(this.email, this.pageNumber, this.pageSize).subscribe(
       response => {
           this.articles = response;
 					this.populated=true;
@@ -35,7 +35,7 @@ export class BetaArticlesComponent implements OnInit {
 
 	onScroll(){
 		this.loadingArticles=true;
-		this.articleService.getAllBetaArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+		this.articleService.getAllBetaArticlesByEmail(this.email, this.pageNumber, this.pageSize).subscribe(
 		articles => {
 			if(articles.length>0){
 				this.articles = this.articles.concat(articles)

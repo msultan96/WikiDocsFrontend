@@ -14,21 +14,9 @@ export class UserService {
     private headers = new HttpHeaders({'Content-Type': 'application/json' });
     constructor(private http:HttpClient) { }
 
-    login(user:User): Observable<User> {
-        let url: string = environment.userAPIUrl + "/login"
-        return this.http.post<User>(url,user,{headers:this.headers})
-        .pipe(catchError(this.handleError));
-    }
-
-    register(user:User):Observable<User> {
-        let url: string = environment.userAPIUrl + "/register";
-        return this.http.post<User>(url,user,{headers:this.headers})
-            .pipe(catchError(this.handleError));
-    }
-
     getNameByEmail(email:string): Observable<string>{
-		let url: string = environment.articleAPIUrl + "/getNameByEmail/"+email;
-		return this.http.get<string>(url)
+		let url: string = environment.userAPIUrl + "/getNameByEmail/"+email;
+		return this.http.get<string>(url, {responseType:'text' as 'json' })
 		  .pipe(catchError(this.handleError));
 	  }
 

@@ -6,13 +6,15 @@ import { AdminComponent } from './admin.component';
 import { LoginComponent } from '../login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AllArticlesComponent } from './all-articles/all-articles.component';
+import { AuthGuard } from '../auth/auth.guard';
 
 
 const routes: Routes = [
   { path: 'Admin', component: AdminComponent,
     children: [
       {
-        path: '',
+				path: '',
+				canActivate: [AuthGuard],
         children: [
           { path: 'Articles/All', component: AllArticlesComponent },
           { path: 'Articles/Approved', component: ApprovedArticlesComponent },

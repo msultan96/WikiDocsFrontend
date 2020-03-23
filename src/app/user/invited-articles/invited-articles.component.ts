@@ -15,7 +15,7 @@ export class InvitedArticlesComponent implements OnInit {
 
 	populated:boolean;
   articles:Article[];
-  loggedInUser:User;
+  email:string;
   loadingArticles:boolean;
   pageNumber:number = 0;
 	pageSize:number = 5;
@@ -24,13 +24,13 @@ export class InvitedArticlesComponent implements OnInit {
 		private transferService:TransferService, private idParserService:IdParserService) { }
 
   ngOnInit(): void {
-		this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
+    this.email = localStorage.getItem('email');  		
 		this.populateArticles();
 	}
 	
 	populateArticles(){
     this.populated=false;
-    this.articleService.getAllInvitedArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+    this.articleService.getAllInvitedArticlesByEmail(this.email, this.pageNumber, this.pageSize).subscribe(
       response => {
           this.populated=true;
 					this.articles = response;
@@ -40,7 +40,7 @@ export class InvitedArticlesComponent implements OnInit {
 	
 	onScroll(){
 		this.loadingArticles=true;
-		this.articleService.getAllInvitedArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+		this.articleService.getAllInvitedArticlesByEmail(this.email, this.pageNumber, this.pageSize).subscribe(
 		response => {
 			if(response.length>0){
 				this.articles = this.articles.concat(response)
