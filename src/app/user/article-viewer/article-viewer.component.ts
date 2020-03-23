@@ -6,6 +6,8 @@ import { User } from 'src/app/shared/models/user';
 import { Article } from 'src/app/shared/models/article';
 import { TransferService } from 'src/app/service/transfer.service';
 import { Status } from 'src/app/shared/models/status';
+import { UserService } from 'src/app/service/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-article-viewer',
@@ -15,7 +17,9 @@ import { Status } from 'src/app/shared/models/status';
 export class ArticleViewerComponent implements OnInit {
 
   data;
-  loggedInUser:User;
+	email:string;
+	userName:string;
+
 	articleLoaded:boolean;
   article:Article;
   etherPadId: string;
@@ -23,17 +27,32 @@ export class ArticleViewerComponent implements OnInit {
   safeUrl:SafeResourceUrl;
   readOnly:boolean=false;
 
-  constructor(private articleService:ArticleService, private idParserService:IdParserService,
-              private sanitizer:DomSanitizer, private transferService:TransferService){}
+  constructor(
+		private articleService:ArticleService,
+		private userService:UserService,
+		private idParserService:IdParserService,
+		private sanitizer:DomSanitizer,
+		private transferService:TransferService,
+		private router:Router){}
 
   ngOnInit(): void {
-    this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
+    this.email = localStorage.getItem('email');
     this.articleLoaded=false;
     this.readOnly=false;
-    this.data=this.transferService.getData();
-    console.log(this.data);
-		this.loadArticle();
-  }
+		this.data=this.transferService.getData();
+		
+		this.init(this.email);
+		
+	}
+	
+	init(email:string) {
+		this.userService.getNameByEmail(email).subscribe(
+			response =>{
+				this.userName = response;
+				this.loadArticle();
+			}
+		)
+	}
 
   loadArticle(){
     if(this.data){
@@ -46,18 +65,17 @@ export class ArticleViewerComponent implements OnInit {
         response =>{
           let responseString:any = response;
           this.padUrl = responseString;
-          this.padUrl+="userName=" + spaceConvertor(this.loggedInUser.name);
+          this.padUrl+="userName=" + spaceConvertor(this.userName);
           this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.padUrl);
           this.articleLoaded=true;
         });
       }
       else{
-        console.log("no data");
+        this.router.navigate(['/error']);
       }
   }
 
   saveArticle(){
-		console.log(this.etherPadId);
 		this.articleService.saveArticle(this.etherPadId).subscribe(
 			response => {
 				console.log(response);

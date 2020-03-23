@@ -16,7 +16,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class RejectedArticlesComponent implements OnInit {
   populated:boolean;
   articles:Article[];
-	loggedInUser:User;
+	email:string;
 	loadingArticles:boolean;
 	pageNumber:number=0;
 	pageSize:number=5;
@@ -34,7 +34,7 @@ export class RejectedArticlesComponent implements OnInit {
 		private idParserService:IdParserService) { }
 
   ngOnInit(): void {
-    this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
+    this.email = localStorage.getItem('email');    
 		this.populateArticles();
 		this.inviteCollaboratorForm = this.formBuilder.group({
 			articleId:[''],
@@ -44,7 +44,7 @@ export class RejectedArticlesComponent implements OnInit {
 
   populateArticles(){
     this.populated=false;
-    this.articleService.getAllRejectedArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+    this.articleService.getAllRejectedArticlesByEmail(this.email, this.pageNumber, this.pageSize).subscribe(
       response => {
           this.populated=true;
 					this.articles = response;
@@ -54,7 +54,7 @@ export class RejectedArticlesComponent implements OnInit {
 
 	onScroll(){
 		this.loadingArticles=true;
-		this.articleService.getAllRejectedArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+		this.articleService.getAllRejectedArticlesByEmail(this.email, this.pageNumber, this.pageSize).subscribe(
 		articles => {
 			if(articles.length>0){
 				this.articles = this.articles.concat(articles)

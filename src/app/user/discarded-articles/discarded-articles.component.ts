@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class DiscardedArticlesComponent implements OnInit {
   populated:boolean;
   articles:Article[];
-	loggedInUser:User;
+	email:string;
 	loadingArticles:boolean;
 	pageNumber:number = 0;
 	pageSize:number = 5;
@@ -22,13 +22,13 @@ export class DiscardedArticlesComponent implements OnInit {
               private router:Router) { }
 
   ngOnInit(): void {
-    this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
+    this.email = localStorage.getItem('email');  		
     this.populateArticles();
   }
 
   populateArticles(){
     this.populated=false;
-    this.articleService.getAllDiscardedArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+    this.articleService.getAllDiscardedArticlesByEmail(this.email, this.pageNumber, this.pageSize).subscribe(
       response => {
           this.populated=true;
 					this.articles = response;
@@ -43,7 +43,7 @@ export class DiscardedArticlesComponent implements OnInit {
 	
 	onScroll(){
 		this.loadingArticles=true;
-		this.articleService.getAllDiscardedArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+		this.articleService.getAllDiscardedArticlesByEmail(this.email, this.pageNumber, this.pageSize).subscribe(
 		articles => {
 			if(articles.length>0){
 				this.articles = this.articles.concat(articles)

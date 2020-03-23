@@ -8,10 +8,11 @@ import { ArticleService } from 'src/app/service/article.service';
   templateUrl: './all-articles.component.html',
   styleUrls: ['./all-articles.component.css']
 })
+
 export class AllArticlesComponent implements OnInit {
 
   articles:Article[] = null;
-  loggedInUser:User;
+  email:string;
   populated:boolean;
   loadingArticles:boolean;
   pageNumber:number = 0;
@@ -20,13 +21,13 @@ export class AllArticlesComponent implements OnInit {
   constructor(private articleService:ArticleService) { }
   
   ngOnInit(): void {
-    this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
+    this.email = localStorage.getItem('email');
     this.populateArticles();
   }
 
   populateArticles(){
     this.populated=false;
-    this.articleService.getAllArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+    this.articleService.getAllArticlesByEmail(this.email, this.pageNumber, this.pageSize).subscribe(
       articles => {
 				this.articles = articles;
 				this.populated=true;
@@ -36,7 +37,7 @@ export class AllArticlesComponent implements OnInit {
 
 	onScroll(){
 		this.loadingArticles=true;
-		this.articleService.getAllArticlesByEmail(this.loggedInUser.email, this.pageNumber, this.pageSize).subscribe(
+		this.articleService.getAllArticlesByEmail(this.email, this.pageNumber, this.pageSize).subscribe(
 		articles => {
 			if(articles.length>0){
 				this.articles = this.articles.concat(articles)

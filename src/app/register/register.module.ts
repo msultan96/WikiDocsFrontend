@@ -18,4 +18,4 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     exports: []
 
 })
-export class SignUpModule { }
+export class RegisterModule { }

@@ -12,12 +12,12 @@ import { AdminRoutingModule } from './admin/admin-routing.module';
 import { UserComponent } from './user/user.component';
 import { UserRoutingModule } from './user/user-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { AppGuard } from './app.guard';
 import { ErrorLandingComponent } from './shared/error-landing/error-landing.component';
-import { SignUpComponent } from './sign-up/sign-up.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { TokenInterceptor } from './interceptors/token.interceptor';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -26,7 +26,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AdminComponent,
     UserComponent,
     LoginComponent,
-    SignUpComponent,
+    RegisterComponent,
     ErrorLandingComponent,
     ],
   imports: [
@@ -43,8 +43,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 		FontAwesomeModule,
 		InfiniteScrollModule,
 		NgbModule,
+		HttpClientModule
   ],
-  providers: [AppGuard],
+  providers: [{
+		provide: HTTP_INTERCEPTORS,
+		useClass: TokenInterceptor,
+		multi: true
+	}],
   bootstrap: [AppComponent],
   exports: []
 })
