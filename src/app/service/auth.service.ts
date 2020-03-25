@@ -18,7 +18,6 @@ export class AuthService {
 		return this.http.post<any>(url + 'login', data)
 		.pipe(
 			tap( _ => this.isLoggedIn = true),
-			catchError(this.handleError('login', []))
 		);
 	}
 
@@ -33,8 +32,7 @@ export class AuthService {
 	register(data:any):Observable<any> {
 		return this.http.post<any>(url + 'register',data)
 			.pipe(
-        tap( _ => this.log('register')),
-				catchError(this.handleError('register', []))
+        tap( _ => this.log('register'))
 			);
 		}
 

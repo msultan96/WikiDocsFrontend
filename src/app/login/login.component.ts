@@ -46,7 +46,6 @@ export class LoginComponent implements OnInit {
 		this.isLoading=true;
     this.authService.login(form).subscribe(
       response => {
-				console.log(response);
 				if(response.token && response.username){
 					this.isLoading = false;
 					localStorage.setItem('token', response.token);
@@ -60,7 +59,7 @@ export class LoginComponent implements OnInit {
 				}
       },
       error => {
-        console.log(error);
+				this.errorMessage = error.error.errorMessage;
         this.isLoading = false;
       });
   }
