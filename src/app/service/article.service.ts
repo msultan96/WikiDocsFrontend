@@ -123,7 +123,7 @@ export class ArticleService {
 
   rejectArticle(articleId: string): Observable<any> {
     let url: string = environment.articleAPIUrl + "/rejectArticle/" + articleId;
-    return this.http.post<Article>(url, {headers:this.headers})
+    return this.http.get<Article>(url, {headers:this.headers})
         .pipe(
 					tap(_ => this.log(`rejected article ${articleId}`)),
 					catchError(this.handleError('rejectArticle', []))

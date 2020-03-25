@@ -13,7 +13,6 @@ export class AllApprovedArticlesComponent implements OnInit {
   
   articles:Article[];
   allArticles:Article[];
-  loggedInUser:User;
 	populated:boolean;
 	loadingArticles:boolean;
 	pageNumber:number=0;
@@ -22,7 +21,6 @@ export class AllApprovedArticlesComponent implements OnInit {
   constructor(private articleService:ArticleService, private userService:UserService) { }
   
   ngOnInit(): void {
-    this.loggedInUser = JSON.parse(sessionStorage.getItem("user"));
     this.populateArticles();
   }
 
