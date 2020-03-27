@@ -43,7 +43,12 @@
 					</div>
 			</div>
 			<div>
-					<button type="submit" class="btn btn-primary m-1">Continue</button>
+					<button type="submit" [disabled]="creatingArticle" class="btn btn-primary m-1">Continue</button>
+			</div>
+			<div *ngIf="creatingArticle" class="h-100 d-flex justify-content-center align-items-center">
+				<div class="spinner-border text-primary" style="width: 1rem; height: 1rem;" role="status">
+					<span class="sr-only"></span>
+				</div>
 			</div>
 		 
 			<div *ngIf="successMessage!=null && successMessage!=''">

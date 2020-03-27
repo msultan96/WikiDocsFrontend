@@ -30,13 +30,13 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      confirmPassword: ['', [Validators.required]]
+      password: ['', [Validators.required]]
+      // confirmPassword: ['', [Validators.required]]
     });
   }
 
   register(form: NgForm){
-    this.registrationInProgress=true;
+		this.registrationInProgress=true;
     this.authService.register(form).subscribe(
       response =>{
         this.registrationInProgress=false;
