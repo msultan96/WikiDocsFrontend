@@ -18,6 +18,7 @@ export class CreateArticleComponent {
 
 	email:string;
 	userName:string;
+	creatingArticle:boolean;
 	articleCreated:boolean;
 	article:Article;
 	padUrl:string = "http://localhost:9001/p/"
@@ -49,6 +50,7 @@ export class CreateArticleComponent {
 	}
 
 	init() {
+		this.creatingArticle=true;
     this.email = localStorage.getItem('email');  		
 		this.userService.getNameByEmail(this.email).subscribe(
 			response =>{
@@ -81,6 +83,7 @@ export class CreateArticleComponent {
 				this.articleNameForm.patchValue({
 					name: ''
 				});
+				this.creatingArticle=false;
 			});
 	}
 
